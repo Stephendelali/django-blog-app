@@ -1,0 +1,45 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="space-y-6">
+  {% for post in posts %}
+  <article class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+    <div class="flex items-center space-x-4 mb-3">
+      <img class="w-12 h-12 rounded-full object-cover" src="{{ post.author.profile.image.url }}" alt="Profile">
+      <div>
+        <a href="{% url 'user-posts' post.author.username %}" class="font-semibold text-gray-900 hover:text-blue-600">{{ post.author }}</a>
+        <p class="text-sm text-gray-500">{{ post.date_posted|date:"F d, Y" }}</p>
+      </div>
+    </div>
+    <h2 class="text-2xl font-semibold mb-2">
+      <a href="{% url 'post-detail' post.id %}" class="hover:text-blue-600">{{ post.title }}</a>
+    </h2>
+    <p class="text-gray-700 leading-relaxed">{{ post.content|truncatewords:30 }}</p>
+  </article>
+  {% empty %}
+  <p class="text-gray-500">No posts available yet.</p>
+  {% endfor %}
+</div>
+
+<!-- Pagination -->
+<div class="flex justify-center items-center space-x-2 mt-8">
+  {% if is_paginated %}
+    {% if page_obj.has_previous %}
+      <a href="?page=1" class="px-3 py-1 border rounded text-gray-700 hover:bg-blue-100">First</a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border rounded text-gray-700 hover:bg-blue-100">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="px-3 py-1 bg-blue-600 text-white rounded">{{ num }}</span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}" class="px-3 py-1 border rounded text-gray-700 hover:bg-blue-100">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border rounded text-gray-700 hover:bg-blue-100">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 border rounded text-gray-700 hover:bg-blue-100">Last</a>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}
