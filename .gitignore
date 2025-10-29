@@ -1,8 +1,32 @@
-# Ignore virtual environment
+# Ignore virtual environments
 django_env/
 venv/
 env/
+ENV/
+.venv/
+
+# Python cache and compiled files
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.py.class
+
+# Django database and media files
 db.sqlite3
+media/
+
+# Static files collected by collectstatic
 /staticfiles/
+
+# Environment variables
+.env
+
+# IDE / editor settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db

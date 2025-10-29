@@ -1,21 +1,49 @@
 {% extends "blog/base.html" %}
 {% block content %}
-<article class="bg-white rounded-xl shadow-md p-6">
-  <div class="flex items-center space-x-4 mb-4">
-    <img class="w-14 h-14 rounded-full object-cover" src="{{ object.author.profile.image.url }}" alt="Profile">
+<!-- Post Card -->
+<article class="bg-white rounded-xl shadow-md p-6 md:p-10 transition hover:shadow-lg">
+  <!-- Author Info -->
+  <div class="flex items-center space-x-4 mb-6">
+    <img class="w-14 h-14 rounded-full object-cover border border-gray-200" 
+         src="{{ object.author.profile.image.url }}" 
+         alt="{{ object.author.username }}'s profile picture">
     <div>
-      <a href="{% url 'user-posts' object.author.username %}" class="font-semibold text-gray-900 hover:text-blue-600">{{ object.author }}</a>
+      <a href="{% url 'user-posts' object.author.username %}" 
+         class="font-semibold text-gray-900 hover:text-blue-600">
+         {{ object.author }}
+      </a>
       <p class="text-sm text-gray-500">{{ object.date_posted|date:"F d, Y" }}</p>
     </div>
   </div>
-  <h2 class="text-3xl font-semibold mb-3">{{ object.title }}</h2>
-  <p class="text-gray-700 leading-relaxed mb-6">{{ object.content }}</p>
 
+  <!-- Post Title -->
+  <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ object.title }}</h1>
+
+  <!-- Post Image (if available) -->
+  {% if object.image %}
+  <div class="mb-6">
+    <img src="{{ object.image.url }}" 
+         alt="{{ object.title }}" 
+         class="w-full rounded-xl object-cover shadow-sm max-h-[450px]">
+  </div>
+  {% endif %}
+
+  <!-- Post Content -->
+  <p class="text-gray-700 leading-relaxed text-lg mb-8">{{ object.content }}</p>
+
+  <!-- Post Actions (Edit/Delete) -->
   {% if object.author == user %}
-  <div class="flex space-x-3">
-    <a href="{% url 'post-update' object.id %}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
-    <a href="{% url 'post-delete' object.id %}" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</a>
+  <div class="flex space-x-4">
+    <a href="{% url 'post-update' object.id %}" 
+       class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+       Edit
+    </a>
+    <a href="{% url 'post-delete' object.id %}" 
+       class="px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+       Delete
+    </a>
   </div>
   {% endif %}
 </article>
+
 {% endblock %}
