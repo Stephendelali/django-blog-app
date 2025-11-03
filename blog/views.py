@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 from django.views.generic import (
     ListView,
     DetailView,
@@ -71,6 +72,16 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
             return True
         return False
 
+
+class LandingView(TemplateView):
+    template_name = 'blog/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.order_by('-date_posted')[:6]
+        context['featured_post'] = Post.objects.order_by('-date_posted').first()
+        context['featured_users'] = User.objects.filter(is_active=True)[:8]
+        return context
 
 
 def about(request):

@@ -1,13 +1,19 @@
 {% extends "blog/base.html" %}
-{% block content %}    
-    <h2>You have been logged out!</h2>
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-outline-light">Logout</button>
-</form>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            Already have an account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
-        </small>
+{% block content %}
+<div class="flex justify-center items-center min-h-[70vh]">
+  <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 w-full max-w-md text-center">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">You’ve been logged out</h2>
+    <p class="text-gray-600 mb-6">Thanks for visiting Voxa. See you soon 👋</p>
+
+    <a href="{% url 'login' %}" 
+       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition">
+       Log In Again
+    </a>
+
+    <div class="border-t mt-6 pt-4 text-sm text-gray-600">
+      Don’t have an account?
+      <a href="{% url 'register' %}" class="text-blue-600 font-semibold hover:underline">Create one</a>
     </div>
+  </div>
+</div>
 {% endblock content %}

@@ -1,18 +1,22 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-   <div class="content-section">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Blog Post</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit"> Post</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-        </div>
-   </div>
-{% endblock content %}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-2xl mx-auto">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    {% if form.instance.pk %}Edit Post{% else %}Create a New Post{% endif %}
+  </h2>
+  <form method="POST" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <div class="flex justify-end space-x-4">
+      <a href="{% url 'blog-home' %}" class="px-4 py-2 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition">
+        Cancel
+      </a>
+      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        {% if form.instance.pk %}Update{% else %}Post{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

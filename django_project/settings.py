@@ -140,6 +140,11 @@ LOGIN_URL = 'login'
 # Load environment variables from the .env file
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

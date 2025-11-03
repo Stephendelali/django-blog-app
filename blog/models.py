@@ -32,3 +32,5 @@ class Post(models.Model):
                 # Prevent crash if the image file doesn't exist yet
                 pass
 
+
+
