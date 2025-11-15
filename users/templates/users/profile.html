@@ -1,24 +1,97 @@
 {% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-    <div class="media">
-        <img class="rounded-circle account-img" src="{{user.profile.image.url }}">
-        <div class="media-body">
-        <h2 class="account-heading">{{user.username}}</h2>
-        <p class="text-secondary">{{user.email}}</p>
+
+{% if u_form.non_field_errors %}
+    <div class="voxa-error mb-6 text-red-400 text-sm font-medium 
+                border border-red-500/20 bg-red-500/10 px-4 py-3 rounded-xl shadow 
+                shadow-red-500/20">
+        {{ u_form.non_field_errors.0 }}
+    </div>
+{% endif %}
+
+<div class="max-w-3xl mx-auto bg-[color:var(--voxa-surface)] border border-white/5 rounded-2xl p-10 shadow-xl backdrop-blur-xl">
+
+    <!-- HEADER -->
+    <div class="flex items-center gap-6 mb-12">
+        <img src="{{ user.profile.image.url }}"
+             class="w-28 h-28 rounded-2xl object-cover border border-white/10 shadow-lg" />
+
+        <div>
+            <h2 class="text-3xl font-semibold text-white tracking-tight">{{ user.username }}</h2>
+            <p class="text-[color:var(--voxa-muted)] text-sm">{{ user.email }}</p>
         </div>
     </div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Profile Info</legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
-            </div>
-        </form>    
-    </div>
+
+    <!-- FORM -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-7">
+        {% csrf_token %}
+
+        <!-- USERNAME -->
+        <div>
+            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
+                Username
+            </label>
+
+            <input type="text" name="username" value="{{ u_form.username.value }}"
+                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
+                    focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
+
+            {% if u_form.username.errors %}
+                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                        shadow-red-500/20">
+                    {{ u_form.username.errors.0 }}
+                </p>
+            {% endif %}
+        </div>
+
+
+        <!-- EMAIL -->
+        <div>
+            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
+                Email
+            </label>
+
+            <input type="email" name="email" value="{{ u_form.email.value }}"
+                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
+                    focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
+
+            {% if u_form.email.errors %}
+                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                        shadow-red-500/20">
+                    {{ u_form.email.errors.0 }}
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- PROFILE IMAGE -->
+        <div>
+            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
+                Profile Image
+            </label>
+
+            <input type="file" name="image"
+                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
+                    file:bg-[color:var(--voxa-accent)] file:text-black file:px-4 file:py-2 
+                    file:rounded-lg focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
+
+            {% if p_form.image.errors %}
+                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                        shadow-red-500/20">
+                    {{ p_form.image.errors.0 }}
+                </p>
+            {% endif %}
+        </div>
+
+
+        <!-- SUBMIT -->
+        <button type="submit"
+            class="w-full py-3 rounded-xl font-semibold text-black shadow-lg bg-gradient-to-r from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] hover:opacity-95 transition">
+            Update Profile
+        </button>
+    </form>
+</div>
+
 {% endblock content %}

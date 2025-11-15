@@ -1,4 +1,57 @@
 {% extends "blog/base.html" %}
 {% block content %}
-   <h1>About page</h1>
-{% endblock content %}
+
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-10 mt-14">
+
+  <!-- Page Title -->
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">About Voxa</h1>
+
+  <!-- Introduction -->
+  <p class="text-gray-700 mb-6">
+    Voxa is a modern platform designed for developers and tech enthusiasts to share ideas, learn from each other, and build meaningful connections. 
+    Here, you can publish posts, follow authors, explore trending topics, and participate in a vibrant tech community.
+  </p>
+
+  <!-- Mission -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Our Mission</h2>
+    <p class="text-gray-700">
+      Our mission is to empower developers to express themselves, discover new projects, and collaborate with like-minded creators. 
+      We strive to provide a clean, user-friendly environment that encourages sharing knowledge and fostering creativity.
+    </p>
+  </div>
+
+  <!-- Key Features -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Key Features</h2>
+    <ul class="list-disc list-inside text-gray-700 space-y-2">
+      <li>Publish posts and tutorials to share your knowledge.</li>
+      <li>Follow other creators and stay updated with their content.</li>
+      <li>Engage in discussions and comment on posts.</li>
+      <li>Discover trending topics and popular posts.</li>
+      <li>Build your profile and track your contributions.</li>
+    </ul>
+  </div>
+
+  <!-- Contributors / Team -->
+  <div>
+    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Top Contributors</h2>
+    <div class="flex flex-wrap gap-4">
+      {% for user in featured_users|slice:":6" %}
+        <div class="flex items-center gap-3 bg-gray-100 p-3 rounded-lg">
+          <img class="w-10 h-10 rounded-full object-cover border" src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+          <div>
+            <p class="font-semibold text-gray-900">{{ user.username }}</p>
+            <p class="text-gray-600 text-sm">{{ user.post_set.count }} posts</p>
+          </div>
+        </div>
+      {% endfor %}
+      {% if not featured_users %}
+        <p class="text-gray-600">No contributors to display yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

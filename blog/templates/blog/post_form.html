@@ -1,22 +1,103 @@
 {% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-2xl mx-auto">
-  <h2 class="text-2xl font-bold text-gray-900 mb-6">
-    {% if form.instance.pk %}Edit Post{% else %}Create a New Post{% endif %}
-  </h2>
-  <form method="POST" enctype="multipart/form-data" class="space-y-6">
-    {% csrf_token %}
-    {{ form|crispy }}
 
-    <div class="flex justify-end space-x-4">
-      <a href="{% url 'blog-home' %}" class="px-4 py-2 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition">
-        Cancel
-      </a>
-      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-        {% if form.instance.pk %}Update{% else %}Post{% endif %}
-      </button>
+<div class="max-w-3xl mx-auto mt-10">
+
+    <!-- Card -->
+    <div class="bg-[#0b0d12] border border-white/10 rounded-2xl shadow-xl 
+                p-8 md:p-12 backdrop-blur-xl">
+
+        <!-- Title -->
+        <h2 class="text-3xl font-bold text-white mb-8 tracking-tight">
+            {% if form.instance.pk %}
+                ✏️ Edit Post
+            {% else %}
+                ✨ Create a New Post
+            {% endif %}
+        </h2>
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data" class="space-y-8">
+            {% csrf_token %}
+
+            <!-- Title Field -->
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium">
+                    Post Title
+                </label>
+
+                <input type="text" name="title" value="{{ form.title.value|default:'' }}"
+                    class="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-white
+                           placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none">
+
+                {% if form.title.errors %}
+                    <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                              border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                              shadow-red-500/20">
+                        {{ form.title.errors.0 }}
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- Content Field -->
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium">
+                    Post Content
+                </label>
+
+                <textarea name="content" rows="6"
+                    class="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-white
+                           placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none">{{ form.content.value|default:'' }}</textarea>
+
+                {% if form.content.errors %}
+                    <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                              border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                              shadow-red-500/20">
+                        {{ form.content.errors.0 }}
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- Image Upload -->
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium">
+                    Post Image (optional)
+                </label>
+
+                <input type="file" name="image"
+                    class="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-white
+                           file:bg-blue-500 file:text-black file:px-4 file:py-2 
+                           file:rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+
+                {% if form.image.errors %}
+                    <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
+                              border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
+                              shadow-red-500/20">
+                        {{ form.image.errors.0 }}
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex justify-end space-x-4 pt-4">
+                <a href="{% url 'blog-home' %}"
+                    class="px-4 py-3 rounded-xl bg-white/10 text-gray-300 hover:bg-white/20 transition">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                    class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold 
+                           hover:bg-blue-700 shadow-md shadow-blue-600/30 transition">
+                    {% if form.instance.pk %}
+                        Update Post
+                    {% else %}
+                        Publish Post
+                    {% endif %}
+                </button>
+            </div>
+
+        </form>
     </div>
-  </form>
 </div>
+
 {% endblock %}

@@ -15,62 +15,108 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    :root{
-      --voxa-bg: #0b0b10;        /* very dark */
-      --voxa-surface: #0f1116;   /* card surface */
-      --voxa-muted: #9aa3b2;     /* muted text */
-      --voxa-accent: #6f49ff;    /* purple */
-      --voxa-accent-2:#2bd4d6;   /* teal accent for highlights */
-    }
+  .text-aqua-300 { color: #2bd4d6; }
+
+ :root {
+  --voxa-bg: #0b0b10;
+  --voxa-surface: #111317;
+  --voxa-muted: #9aa3b2;
+  --voxa-accent: #7C3AED; /* violet */
+  --voxa-accent-2: #22D3EE; /* soft teal for highlights */
+}
+
 @layer base {
   html {
     font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   }
 }
+
+
+/* ✅ nav underline animation */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--voxa-accent);
+  transition: width .25s ease, left .25s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* keep underline when active */
+.nav-link.active::after {
+  width: 100%;
+  left: 0;
+}
+
+@keyframes voxa-error-pop {
+  0% { opacity: 0; transform: translateY(-4px) scale(.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.voxa-error {
+  animation: voxa-error-pop .25s ease-out;
+}
 </style>
+
+
 </head>
 <body class="bg-[color:var(--voxa-bg)] text-gray-100 antialiased">
 
   <!-- NAVBAR -->
-  <nav class="fixed inset-x-0 top-0 z-30 border-b border-gray-800 bg-[rgba(6,7,10,0.6)] backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="{% url 'blog-home' %}" class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] flex items-center justify-center">
-          <span class="font-bold text-sm">V</span>
-        </div>
-        <span class="text-lg font-semibold">Voxa</span>
-      </a>
+<nav class="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-black/40 backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-      <div class="hidden sm:flex items-center gap-4 text-sm text-[color:var(--voxa-muted)]">
-        <a href="{% url 'blog-home' %}" class="hover:text-white transition">Home</a>
-        <a href="{% url 'blog-about' %}" class="hover:text-white transition">About</a>
-
-        {% if user.is_authenticated %}
-          <a href="{% url 'post-create' %}" class="px-3 py-1 bg-[color:var(--voxa-accent)] text-black rounded-md hover:opacity-95 transition">Create</a>
-          <a href="{% url 'profile' %}" class="hover:text-white transition">Profile</a>
-          <form action="{% url 'logout' %}" method="post" class="inline">
-            {% csrf_token %}
-            <button type="submit" class="hover:text-red-400 transition">Logout</button>
-          </form>
-        {% else %}
-          <!-- trigger modal or link -->
-          <button id="loginBtn" class="px-3 py-1 border border-gray-700 rounded-md text-[color:var(--voxa-muted)] hover:text-white">Login</button>
-          <button id="joinBtn" class="px-3 py-1 bg-[color:var(--voxa-accent)] text-black rounded-md hover:opacity-95 transition">
-            Join
-          </button>
-        {% endif %}
+    <!-- LOGO -->
+    <a href="{% url 'blog-home' %}" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] flex items-center justify-center transition-transform group-hover:scale-105">
+        <span class="font-bold text-sm">V</span>
       </div>
+      <span class="text-lg font-semibold tracking-wide">Voxa</span>
+    </a>
 
-      <!-- Mobile menu / quick icons -->
-      <div class="sm:hidden text-[color:var(--voxa-muted)]">
-        {% if user.is_authenticated %}
-          <a href="{% url 'profile' %}" title="Profile" class="inline-block">👤</a>
-        {% else %}
-          <button id="loginBtnMobile">Log in</button>
-        {% endif %}
-      </div>
+    <!-- MENU LINKS -->
+    <div class="hidden sm:flex items-center gap-8 text-sm text-[color:var(--voxa-muted)]">
+      <a href="{% url 'blog-home' %}" class="nav-link  hover:text-white transition {% if request.resolver_match.url_name == 'blog-home' %}active{% endif %}">
+        Home</a>
+      <a href="{% url 'blog-about' %}" class="nav-link  hover:text-white transition">About</a>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'post-create' %}" class="px-4 py-1.5 bg-[color:var(--voxa-accent)] text-white font-medium rounded-lg shadow hover:opacity-90 transition">Create</a>
+        <a href="{% url 'profile' %}" class="nav-link hover:text-white transition">Profile</a>
+
+        <form action="{% url 'logout' %}" method="post" class="inline">
+          {% csrf_token %}
+          <button type="submit" class="hover:text-red-400">Logout</button>
+        </form>
+
+      {% else %}
+        <button id="loginBtn" class="hover:text-white transition">Login</button>
+        <button id="joinBtn" class="px-4 py-1.5 bg-[color:var(--voxa-accent)] text-white font-medium rounded-lg shadow hover:opacity-90 transition">
+          Join
+        </button>
+      {% endif %}
     </div>
-  </nav>
+
+    <!-- MOBILE ICON -->
+    <div class="sm:hidden text-[color:var(--voxa-muted)]">
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" title="Profile" class="inline-block">👤</a>
+      {% else %}
+        <button id="loginBtnMobile">Log in</button>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
 
   <!-- MAIN -->
   <main class="pt-24">
@@ -85,47 +131,65 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <div>© {{ now|date:"Y" }} Voxa. All rights reserved.</div>
         <div class="flex gap-4">
-          <a href="#" class="hover:text-white">Terms</a>
-          <a href="#" class="hover:text-white">Privacy</a>
-          <a href="#" class="hover:text-white">Contact</a>
+          <a href="#" class="nav-link hover:text-white">Terms</a>
+          <a href="#" class="nav-link hover:text-white">Privacy</a>
+          <a href="#" class="nav-link hover:text-white">Contact</a>
         </div>
       </div>
     </div>
   </footer>
 
 <!-- ✅ LOGIN MODAL -->
- <div id="loginModal" 
+ <div id="loginModal"
      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 hidden z-50 opacity-0 transition-opacity duration-300">
-  <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-96 relative transform transition-all duration-300 scale-90">
+<div class="bg-[#0f1116] text-gray-100 rounded-2xl shadow-2xl p-8 w-[420px] relative transform transition-all duration-300 scale-90 border border-white/5">
 
-    <button id="closeLoginModal" class="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
-    <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">Welcome Back</h2>
+  <button id="closeLoginModal" class="absolute top-4 right-5 text-gray-400 hover:text-gray-200 text-3xl leading-none">&times;</button>
 
-    <form id="loginForm" method="POST" action="{% url 'ajax_login' %}">
-      {% csrf_token %}
-      <div class="mb-4">
-        <label class="block text-sm text-gray-600 mb-1">Username</label>
-        <input type="text" name="username" class="w-full border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm text-gray-600 mb-1">Password</label>
-        <input type="password" name="password" class="w-full border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-      </div>
-      <div class="flex items-center justify-between mb-4 text-sm">
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" class="form-checkbox border-gray-300">
-          <span>Remember me</span>
-        </label>
-        <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Forgot password?</a>
-      </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-md font-medium">Login</button>
-    </form>
-
-    <p class="text-center text-sm text-gray-500 mt-4">
-      Don’t have an account?
-      <button id="openJoinModalFromLogin" class="text-blue-500 hover:underline">Join now</button>
-    </p>
+  <div class="text-center mb-8">
+    <div class="mx-auto h-14 w-14 rounded-xl bg-gradient-to-br from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] flex items-center justify-center shadow-lg">
+      <span class="font-bold text-xl">V</span>
+    </div>
+    <h2 class="text-2xl font-semibold mt-4 tracking-tight">Welcome back</h2>
+    <p class="text-sm text-[color:var(--voxa-muted)] mt-1">Sign in to continue</p>
   </div>
+
+  <form id="loginForm" method="POST" action="{% url 'ajax_login' %}" class="space-y-5">
+    {% csrf_token %}
+
+    <div>
+      <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Username</label>
+      <input type="text" name="username"
+             class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
+             required>
+    </div>
+
+    <div>
+      <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Password</label>
+      <input type="password" name="password"
+             class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
+             required>
+    </div>
+
+    <div class="flex justify-between text-sm">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="rounded border-white/20">
+        <span class="text-[color:var(--voxa-muted)]">Remember me</span>
+      </label>
+      <a href="{% url 'password_reset' %}" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Forgot?</a>
+    </div>
+
+    <button type="submit"
+            class="w-full py-3 rounded-xl bg-gradient-to-r from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] font-semibold text-black shadow hover:opacity-95 transition">
+      Sign in
+    </button>
+  </form>
+
+  <p class="text-center text-sm mt-6 text-[color:var(--voxa-muted)]">
+    No account yet?
+    <button id="openJoinModalFromLogin" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Join now</button>
+  </p>
+</div>
 </div>
 
 
