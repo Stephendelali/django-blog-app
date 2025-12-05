@@ -1,0 +1,32 @@
+{% if is_paginated %}
+<div class="flex gap-2 mt-6">
+
+    {% if page_obj.has_previous %}
+        <a class="px-4 py-2 border border-gray-700 rounded-lg text-[color:var(--voxa-muted)] hover:text-white"
+           href="?page=1">First</a>
+
+        <a class="px-4 py-2 border border-gray-700 rounded-lg text-[color:var(--voxa-muted)] hover:text-white"
+           href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <span class="px-4 py-2 bg-[color:var(--voxa-accent)] text-black rounded-lg">
+              {{ num }}
+            </span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="px-4 py-2 border border-gray-700 rounded-lg text-[color:var(--voxa-muted)] hover:text-white"
+               href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="px-4 py-2 border border-gray-700 rounded-lg text-[color:var(--voxa-muted)] hover:text-white"
+           href="?page={{ page_obj.next_page_number }}">Next</a>
+
+        <a class="px-4 py-2 border border-gray-700 rounded-lg text-[color:var(--voxa-muted)] hover:text-white"
+           href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+</div>
+{% endif %}

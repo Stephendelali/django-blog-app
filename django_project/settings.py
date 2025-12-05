@@ -45,7 +45,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Required for allauth
+    'django.contrib.sites',
+
+    # Allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    # DRF + token auth
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # dj-rest-auth
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -166,6 +187,22 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": "YOUR_CLIENT_ID",
+            "secret": "YOUR_SECRET",
+            "key": ""
+        },
+        "AUTH_PARAMS": {
+            "access_type": "offline"
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
+}
+
+REST_AUTH_SOCIAL_USE_TOKEN = True
 
 
 

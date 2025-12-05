@@ -1,60 +1,63 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-<div class="max-w-4xl mx-auto mt-12 px-4 md:px-0">
+<div class="max-w-5xl mx-auto mt-12 px-4 md:px-0">
 
-    <!-- Card -->
-    <article class="bg-white border border-gray-200 rounded-2xl shadow-lg p-8 md:p-12 transition-all">
+  <!-- Post Card -->
+  <article class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl shadow-md p-8 md:p-12">
 
-        <!-- Author Info -->
-        <div class="flex items-center gap-4 mb-6">
-            <img class="w-16 h-16 rounded-full object-cover border border-gray-200"
-                 src="{{ object.author.profile.image.url }}" 
-                 alt="{{ object.author.username }}'s profile picture">
-            <div>
-                <a href="{% url 'user-posts' object.author.username %}"
-                   class="text-blue-600 font-semibold hover:underline transition">
-                    {{ object.author }}
-                </a>
-                <p class="text-gray-500 text-sm">{{ object.date_posted|date:"F d, Y" }}</p>
-            </div>
-        </div>
+    <!-- Author Info -->
+    <div class="flex items-center gap-4 mb-6">
+      <img class="w-14 h-14 rounded-full object-cover border border-gray-700"
+           src="{{ object.author.profile.image.url }}" 
+           alt="{{ object.author.username }}'s profile picture">
+      <div>
+        <a href="{% url 'user-posts' object.author.username %}"
+           class="text-[color:var(--voxa-accent)] font-semibold hover:underline transition">
+           {{ object.author }}
+        </a>
+        <p class="text-[color:var(--voxa-muted)] text-sm">{{ object.date_posted|date:"F d, Y" }}</p>
+      </div>
+    </div>
 
-        <!-- Post Title -->
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            {{ object.title }}
-        </h1>
+    <!-- Post Title -->
+    <h1 class="text-xl md:text-3xl font-bold text-white mb-6 leading-tight">
+      {{ object.title }}
+    </h1>
 
-        <!-- Post Image -->
-        {% if object.image %}
-        <div class="mb-8">
-            <img src="{{ object.image.url }}"
-                 alt="{{ object.title }}"
-                 class="w-full rounded-2xl object-cover shadow-lg max-h-[600px] mx-auto"
-                 style="image-rendering: auto;">
-        </div>
-        {% endif %}
+    <!-- Post Image -->
+    {% if object.image %}
+    <div class="mb-6 flex justify-center">
+    <img src="{{ object.image.url }}"
+        alt="{{ object.title }}"
+        class="rounded-xl shadow-sm object-contain"
+        style="max-width: 250px; width: 100%; height: auto;">
+    </div>
+    {% endif %}
 
-        <!-- Post Content -->
-        <div class="prose max-w-none text-gray-800 text-lg leading-relaxed">
-            {{ object.content|linebreaks }}
-        </div>
 
-        <!-- Edit/Delete Actions (for author) -->
-        {% if object.author == user %}
-        <div class="flex justify-end gap-4 mt-8">
-            <a href="{% url 'post-update' object.id %}"
-               class="px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-md">
-                Edit
-            </a>
-            <a href="{% url 'post-delete' object.id %}"
-               class="px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition shadow-md">
-                Delete
-            </a>
-        </div>
-        {% endif %}
 
-    </article>
+
+    <!-- Post Content -->
+    <div class="prose prose-lg text-[color:var(--voxa-muted)] max-w-none leading-relaxed">
+      {{ object.content|linebreaks }}
+    </div>
+
+    <!-- Edit/Delete Actions -->
+    {% if object.author == user %}
+    <div class="flex justify-end gap-4 mt-8">
+      <a href="{% url 'post-update' object.id %}"
+         class="px-5 py-2.5 bg-[color:var(--voxa-accent)] text-black rounded-xl hover:opacity-90 shadow-md transition">
+         Edit
+      </a>
+      <a href="{% url 'post-delete' object.id %}"
+         class="px-5 py-2.5 bg-red-600 text-white rounded-xl hover:opacity-90 shadow-md transition">
+         Delete
+      </a>
+    </div>
+    {% endif %}
+
+  </article>
 </div>
 
 {% endblock %}

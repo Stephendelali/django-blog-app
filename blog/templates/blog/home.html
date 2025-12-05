@@ -12,9 +12,13 @@
 
     <div class="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div class="space-y-6">
-        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">
-          Voxa - where tech voices connect
-        </h1>
+<h1 class="text-3xl md:text-4xl font-light text-white leading-tight tracking-wide">
+  Voxa - where 
+  <span class="bg-gradient-to-r from-[color:var(--voxa-accent)] to-purple-400 bg-clip-text text-transparent font-semibold tracking-normal">
+    tech voices connect
+  </span>
+</h1>
+
         <p class="text-[color:var(--voxa-muted)] max-w-xl">
           Share ideas, discover projects, and join conversations with developers and tech creators. 
           Publish posts, follow authors, and build your reputation on Voxa.
@@ -30,26 +34,30 @@
              Explore feed
           </a>
         </div>
-
-        <div class="flex items-center gap-4 mt-4 text-sm text-[color:var(--voxa-muted)]">
-          <div class="flex items-center gap-3">
-            <div class="bg-white/8 px-3 py-2 rounded-md text-xs">🔥 Trending</div>
-            <div class="text-xs">#AI  #WebDev  #OpenSource</div>
-          </div>
-        </div>
       </div>
 
       <!-- Hero image card / featured post preview -->
       <div>
         <div class="bg-[color:var(--voxa-surface)] rounded-xl overflow-hidden border border-gray-800 shadow-md">
           {% if featured_post %}
-            <img src="{{ featured_post.image.url }}" alt="{{ featured_post.title }}" class="w-full h-56 object-cover">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold text-white">{{ featured_post.title }}</h3>
-              <p class="text-[color:var(--voxa-muted)] mt-2 line-clamp-2">{{ featured_post.content|truncatewords:20 }}</p>
-              <a href="{% url 'post-detail' featured_post.id %}" 
-                 class="inline-block mt-4 px-4 py-2 bg-[color:var(--voxa-accent)] text-black rounded-md">Read</a>
-            </div>
+            {% if featured_post.image %}
+              <div class="overflow-hidden rounded-xl border border-gray-800 shadow-md">
+                <img src="{{ featured_post.image.url }}" 
+                     alt="{{ featured_post.title }}" 
+                     class="w-full rounded-xl object-contain"
+                     style="max-height: 300px; width: 100%; height: auto;">
+                <div class="p-5">
+                  <h3 class="text-lg font-semibold text-white">{{ featured_post.title }}</h3>
+                  <p class="text-[color:var(--voxa-muted)] mt-2 line-clamp-2">{{ featured_post.content|truncatewords:20 }}</p>
+                  <a href="{% url 'post-detail' featured_post.id %}" 
+                     class="inline-block mt-4 px-4 py-2 bg-[color:var(--voxa-accent)] text-black rounded-md">Read</a>
+                </div>
+              </div>
+            {% else %}
+              <div class="w-full h-56 flex items-center justify-center text-[color:var(--voxa-muted)]">
+                Featured post will appear here
+              </div>
+            {% endif %}
           {% else %}
             <div class="w-full h-56 flex items-center justify-center text-[color:var(--voxa-muted)]">
               Featured post will appear here
@@ -58,6 +66,20 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- TRENDING TOPICS -->
+<section class="mt-8">
+  <h4 class="text-white font-semibold mb-3 text-lg">🔥 Trending Topics</h4>
+  <div class="flex gap-3 overflow-x-auto pb-3">
+    {% for tag in trending_tags %}
+      <span class="flex-shrink-0 bg-[color:var(--voxa-accent)] text-black px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 transition cursor-pointer">
+        #{{ tag }}
+      </span>
+    {% empty %}
+      <span class="text-[color:var(--voxa-muted)]">No trending topics yet.</span>
+    {% endfor %}
   </div>
 </section>
 

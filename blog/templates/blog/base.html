@@ -13,6 +13,8 @@
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
 
   <style>
   .text-aqua-300 { color: #2bd4d6; }
@@ -73,7 +75,7 @@
 
   <!-- NAVBAR -->
 <nav class="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-black/40 backdrop-blur-xl">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
 
     <!-- LOGO -->
     <a href="{% url 'blog-home' %}" class="flex items-center gap-3 group">
@@ -140,57 +142,66 @@
   </footer>
 
 <!-- ✅ LOGIN MODAL -->
- <div id="loginModal"
+<div id="loginModal"
      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 hidden z-50 opacity-0 transition-opacity duration-300">
-<div class="bg-[#0f1116] text-gray-100 rounded-2xl shadow-2xl p-8 w-[420px] relative transform transition-all duration-300 scale-90 border border-white/5">
+  <div class="bg-[#0f1116] text-gray-100 rounded-2xl shadow-2xl p-8 w-[420px] relative transform transition-all duration-300 scale-90 border border-white/5">
 
-  <button id="closeLoginModal" class="absolute top-4 right-5 text-gray-400 hover:text-gray-200 text-3xl leading-none">&times;</button>
+    <!-- Close Button -->
+    <button id="closeLoginModal" class="absolute top-4 right-5 text-gray-400 hover:text-gray-200 text-3xl leading-none">&times;</button>
 
-  <div class="text-center mb-8">
-    <div class="mx-auto h-14 w-14 rounded-xl bg-gradient-to-br from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] flex items-center justify-center shadow-lg">
-      <span class="font-bold text-xl">V</span>
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="mx-auto h-14 w-14 rounded-xl bg-gradient-to-br from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] flex items-center justify-center shadow-lg">
+        <span class="font-bold text-xl">V</span>
+      </div>
+      <h2 class="text-2xl font-semibold mt-4 tracking-tight">Welcome back</h2>
+      <p class="text-sm text-[color:var(--voxa-muted)] mt-1">Sign in to continue</p>
     </div>
-    <h2 class="text-2xl font-semibold mt-4 tracking-tight">Welcome back</h2>
-    <p class="text-sm text-[color:var(--voxa-muted)] mt-1">Sign in to continue</p>
+
+    <!-- Login Form -->
+    <form id="loginForm" method="POST" action="{% url 'ajax_login' %}" class="space-y-5">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Username</label>
+        <input type="text" name="username"
+               class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
+               required>
+      </div>
+
+      <div>
+        <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Password</label>
+        <input type="password" name="password"
+               class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
+               required>
+      </div>
+
+      <div class="flex justify-between text-sm">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="rounded border-white/20">
+          <span class="text-[color:var(--voxa-muted)]">Remember me</span>
+        </label>
+        <a href="{% url 'password_reset' %}" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Forgot?</a>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 rounded-xl bg-gradient-to-r from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] font-semibold text-black shadow hover:opacity-95 transition">
+        Sign in
+      </button>
+    </form>
+
+    <!-- Google Sign-in Button -->
+    <div id="googleSignInBtn" class="w-full flex justify-center mt-4"></div>
+
+
+    <!-- Switch to Join -->
+    <p class="text-center text-sm mt-6 text-[color:var(--voxa-muted)]">
+      No account yet?
+      <button id="openJoinModalFromLogin" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Join now</button>
+    </p>
   </div>
-
-  <form id="loginForm" method="POST" action="{% url 'ajax_login' %}" class="space-y-5">
-    {% csrf_token %}
-
-    <div>
-      <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Username</label>
-      <input type="text" name="username"
-             class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
-             required>
-    </div>
-
-    <div>
-      <label class="block text-sm text-[color:var(--voxa-muted)] mb-1">Password</label>
-      <input type="password" name="password"
-             class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl focus:ring-2 focus:ring-[color:var(--voxa-accent)] focus:outline-none"
-             required>
-    </div>
-
-    <div class="flex justify-between text-sm">
-      <label class="flex items-center gap-2">
-        <input type="checkbox" class="rounded border-white/20">
-        <span class="text-[color:var(--voxa-muted)]">Remember me</span>
-      </label>
-      <a href="{% url 'password_reset' %}" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Forgot?</a>
-    </div>
-
-    <button type="submit"
-            class="w-full py-3 rounded-xl bg-gradient-to-r from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] font-semibold text-black shadow hover:opacity-95 transition">
-      Sign in
-    </button>
-  </form>
-
-  <p class="text-center text-sm mt-6 text-[color:var(--voxa-muted)]">
-    No account yet?
-    <button id="openJoinModalFromLogin" class="text-[color:var(--voxa-accent-2)] hover:opacity-80">Join now</button>
-  </p>
 </div>
-</div>
+
 
 
 <!-- ✅ JOIN (REGISTER) MODAL -->
@@ -405,6 +416,83 @@ document.querySelector('#joinModal form')?.addEventListener('submit', async func
     submitBtn.textContent = "Join";
   }
 });
+</script>
+
+<script>
+/* --- Detect if this is the popup window --- */
+function isPopupWindow() {
+    return window.opener && !window.opener.closed;
+}
+
+/* --- Send token to Django backend --- */
+function sendTokenToServer(token) {
+    return fetch("{% url 'google-login' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ id_token: token })
+    })
+    .then(r => r.json());
+}
+
+/* --- Google callback --- */
+function handleGoogleCredentialResponse(response) {
+    const token = response?.credential;
+    if (!token) {
+        console.error("No credential found");
+        return;
+    }
+
+    // Case 1: This callback is running INSIDE the popup
+    if (isPopupWindow()) {
+        window.opener.postMessage({
+            type: "google-credential",
+            credential: token
+        }, "*");
+
+        window.close(); // Close Google popup
+        return;
+    }
+
+    // Case 2: Callback is running on parent page
+    sendTokenToServer(token).then(data => {
+        if (data.key || data.access_token) {
+            window.location.href = "/";
+        } else {
+            alert("Login failed");
+        }
+    });
+}
+
+/* --- Listener: parent page receives token from popup --- */
+window.addEventListener("message", function (event) {
+    if (event.data?.type === "google-credential") {
+        sendTokenToServer(event.data.credential).then(data => {
+            if (data.key || data.access_token) {
+                window.location.href = "/";
+            } else {
+                alert("Login failed");
+            }
+        });
+    }
+});
+
+/* --- Initialize Google --- */
+window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "533139880872-3tckijdt11jd7un5h080hlku73fmfrac.apps.googleusercontent.com",
+        callback: handleGoogleCredentialResponse,
+        ux_mode: "popup"
+    });
+
+    google.accounts.id.renderButton(
+        document.getElementById("googleSignInBtn"),
+        { theme: "outline", size: "large", width: "100%" }
+    );
+};
 </script>
 
 <!-- Toast Notification Container -->

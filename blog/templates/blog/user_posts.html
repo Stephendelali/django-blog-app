@@ -1,50 +1,70 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
 
-    {% for post in posts %}
-    <article class="media content-section">
-        <!-- Author profile picture -->
-        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+<!-- User Header -->
+<section class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl p-8 mb-8">
+  <div class="flex flex-col md:flex-row items-center gap-6">
+    
+    <!-- Profile Image -->
+    <img src="{{ user.profile.image.url }}" 
+         alt="{{ user.username }}'s profile picture"
+         class="w-28 h-28 rounded-full border border-gray-700 object-cover">
+    
+    <!-- User Info -->
+    <div class="text-center md:text-left">
+      <h1 class="text-3xl font-bold text-white">{{ user.username }}</h1>
+      {% if user.profile.bio %}
+      <p class="text-[color:var(--voxa-muted)] mt-1 max-w-xl">{{ user.profile.bio }}</p>
+      {% endif %}
 
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-            </div>
-
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-
-            <!-- Post image -->
-            {% if post.image %}
-                <img class="img-fluid rounded mb-3" src="{{ post.image.url }}" alt="{{ post.title }}">
-            {% endif %}
-
-            <p class="article-content">{{ post.content }}</p>
+      <div class="flex gap-6 mt-4 text-[color:var(--voxa-muted)]">
+        <div>
+          <span class="font-semibold text-white">{{ user.post_set.count }}</span>
+          <span class="text-sm">Posts</span>
         </div>
-    </article>
+        <div>
+          <span class="font-semibold text-white">{{ followers_count }}</span>
+          <span class="text-sm">Followers</span>
+        </div>
+        <div>
+          <span class="font-semibold text-white">{{ following_count }}</span>
+          <span class="text-sm">Following</span>
+        </div>
+      </div>
+
+      <!-- Optional: Follow/Message Buttons -->
+      {% if request.user != user %}
+      <div class="flex gap-4 mt-4">
+        <form method="POST" action="{% url 'follow-user' user.username %}">
+          {% csrf_token %}
+          <button type="submit" class="px-4 py-2 bg-[color:var(--voxa-accent)] text-black rounded-md font-semibold hover:opacity-90 transition">
+            {% if is_following %}Unfollow{% else %}Follow{% endif %}
+          </button>
+        </form>
+        <a href="{% url 'message-user' user.username %}" class="px-4 py-2 border border-gray-700 text-[color:var(--voxa-muted)] rounded-md hover:text-white transition">
+          Message
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Recent Posts -->
+<section>
+  <h2 class="text-2xl font-bold text-white mb-4">Recent Posts</h2>
+  <div class="space-y-4">
+    {% for post in recent_posts %}
+    <div class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+      <h3 class="text-lg font-semibold text-white">
+        <a href="{% url 'post-detail' post.id %}" class="hover:text-[color:var(--voxa-accent)]">{{ post.title }}</a>
+      </h3>
+      <p class="text-[color:var(--voxa-muted)] mt-2 line-clamp-3">{{ post.content|truncatewords:25 }}</p>
+    </div>
     {% empty %}
-        <p>No posts found for this user.</p>
+      <p class="text-[color:var(--voxa-muted)]">No posts yet.</p>
     {% endfor %}
+  </div>
+</section>
 
-    <!-- Pagination -->
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-    {% endif %}
-{% endblock content %}
+{% endblock %}

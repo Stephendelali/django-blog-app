@@ -82,6 +82,19 @@ class LandingView(TemplateView):
         context['featured_post'] = Post.objects.order_by('-date_posted').first()
         context['featured_users'] = User.objects.filter(is_active=True)[:8]
         return context
+    
+
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+
+
 
 
 def about(request):
