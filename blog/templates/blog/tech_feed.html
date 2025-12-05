@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">Tech Articles for You</h1>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    {% for article in articles %}
+      <div class="bg-white rounded-xl shadow p-4">
+        
+        {% if article.cover_image %}
+          <img src="{{ article.cover_image }}" 
+               class="rounded-lg mb-3 w-full h-48 object-cover" />
+        {% endif %}
+
+        <h2 class="text-xl font-semibold">{{ article.title }}</h2>
+
+        <p class="text-gray-600 text-sm mt-2">
+          {{ article.description|truncatechars:120 }}
+        </p>
+
+        <div class="flex items-center gap-3 mt-4">
+          <img src="{{ article.user.profile_image }}" class="w-8 h-8 rounded-full">
+          <span class="text-gray-700 text-sm">{{ article.user.username }}</span>
+        </div>
+
+        <a href="{{ article.url }}" target="_blank"
+           class="mt-4 inline-block text-blue-600 font-medium hover:underline">
+          Read on Dev.to →
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

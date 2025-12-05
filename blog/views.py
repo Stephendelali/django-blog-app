@@ -9,15 +9,39 @@ from django.views.generic import (
     UpdateView,
     DeleteView)
 from .models import Post
-
+import requests
+from django.shortcuts import render
+from .utils import fetch_devto_articles
 
 
 # Create your views here.
+
 def home(request):
+    # Latest posts
+    posts = Post.objects.all().order_by('-date_posted')[:6]
+
+    # Featured post (most recent)
+    featured_post = posts.first() if posts.exists() else None
+
+    # Featured users (top 8 active users)
+    featured_users = User.objects.filter(is_active=True)[:8]
+
+    # Trending tags (optional, only if your Post model has tags)
+    trending_tags = Post.objects.values_list('tags__name', flat=True).distinct()[:10] if hasattr(Post, 'tags') else []
+
+    # Fetch Dev.to articles
+    external_articles = fetch_devto_articles(per_page=6)
+
     context = {
-        'posts': Post.objects.all()
+        'posts': posts,
+        'featured_post': featured_post,
+        'featured_users': featured_users,
+        'trending_tags': trending_tags,
+        'external_articles': external_articles
     }
+
     return render(request, 'blog/home.html', context)
+
 
 class PostListView(ListView):
     model = Post
@@ -95,6 +119,14 @@ class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
 
 
+
+def tech_feed(request):
+    url = "https://dev.to/api/articles?per_page=10"
+    response = requests.get(url)
+
+    articles = response.json()
+
+    return render(request, "blog/tech_feed.html", {"articles": articles})
 
 
 def about(request):
