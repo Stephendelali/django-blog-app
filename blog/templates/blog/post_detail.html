@@ -1,63 +1,155 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-<div class="max-w-5xl mx-auto mt-12 px-4 md:px-0">
+<!-- READING PROGRESS BAR -->
+<div id="reading-progress"
+     class="fixed top-0 left-0 h-1 bg-[color:var(--voxa-accent)] transition-all duration-300"
+     style="width: 0%; z-index:9999;"></div>
 
-  <!-- Post Card -->
-  <article class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl shadow-md p-8 md:p-12">
+<div class="max-w-3xl mx-auto mt-12 px-4 md:px-0 relative">
 
-    <!-- Author Info -->
-    <div class="flex items-center gap-4 mb-6">
-      <img class="w-14 h-14 rounded-full object-cover border border-gray-700"
-           src="{{ object.author.profile.image.url }}" 
-           alt="{{ object.author.username }}'s profile picture">
+  <!-- FLOATING REACTION BAR (desktop) -->
+  <div class="hidden md:flex flex-col gap-5 fixed left-10 top-1/3">
+
+    <!-- Love -->
+    <button class="group p-3 rounded-xl border border-gray-700 text-gray-400 
+      hover:text-red-500 hover:border-red-500 transition flex flex-col items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 
+           group-hover:scale-125 transition-transform" fill="none" 
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M12 21s-6.5-4.1-9.3-8.4C-1.1 7.4 2.1 2 7 2c2.1 0 3.7 1 5 2.6C13.3 3 14.9 2 17 2c4.9 0 8.1 5.4 4.3 10.6C18.5 16.9 12 21 12 21z"/>
+      </svg>
+    </button>
+
+    <!-- Clap -->
+    <button class="group p-3 rounded-xl border border-gray-700 text-gray-400 
+      hover:text-[color:var(--voxa-accent)] hover:border-[color:var(--voxa-accent)] 
+      transition flex flex-col items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 
+           group-hover:scale-125 transition-transform" fill="none" 
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M12 20c4.418 0 8-3.582 8-8 0-.93-.159-1.822-.452-2.653"/>
+      </svg>
+    </button>
+
+    <!-- Comment -->
+    <a href="#comments-section"
+      class="group p-3 rounded-xl border border-gray-700 text-gray-400 
+      hover:text-white hover:border-[color:var(--voxa-accent)] 
+      transition flex flex-col items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 
+           group-hover:scale-125 transition-transform" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M8 10h8M8 14h5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </a>
+
+    <!-- Bookmark -->
+    <button class="group p-3 rounded-xl border border-gray-700 text-gray-400 
+      hover:text-[color:var(--voxa-accent)] hover:border-[color:var(--voxa-accent)] 
+      transition flex flex-col items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 
+           group-hover:scale-125 transition-transform" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z"/>
+      </svg>
+    </button>
+
+  </div>
+
+
+  <!-- POST CARD -->
+  <article class="bg-[color:var(--voxa-surface)] border border-gray-800 
+           rounded-2xl shadow-xl p-10 relative overflow-hidden">
+
+    <div class="absolute inset-0 bg-gradient-to-br 
+         from-[color:var(--voxa-accent)]/5 via-transparent to-transparent"></div>
+
+    <!-- Author -->
+    <div class="relative flex items-center gap-4 mb-8">
+      <img src="{{ object.author.profile.image.url }}"
+           class="w-14 h-14 rounded-full object-cover border border-gray-700 shadow" />
+
       <div>
         <a href="{% url 'user-posts' object.author.username %}"
-           class="text-[color:var(--voxa-accent)] font-semibold hover:underline transition">
-           {{ object.author }}
+           class="font-semibold text-[color:var(--voxa-accent)] hover:underline">
+          {{ object.author }}
         </a>
-        <p class="text-[color:var(--voxa-muted)] text-sm">{{ object.date_posted|date:"F d, Y" }}</p>
+
+        <p class="text-[color:var(--voxa-muted)] text-sm">
+          {{ object.date_posted|date:"F d, Y" }}
+        </p>
       </div>
     </div>
 
-    <!-- Post Title -->
-    <h1 class="text-xl md:text-3xl font-bold text-white mb-6 leading-tight">
+    <!-- Title -->
+    <h1 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
       {{ object.title }}
     </h1>
 
-    <!-- Post Image -->
+    <!-- Hero Image -->
     {% if object.image %}
-    <div class="mb-6 flex justify-center">
-    <img src="{{ object.image.url }}"
-        alt="{{ object.title }}"
-        class="rounded-xl shadow-sm object-contain"
-        style="max-width: 250px; width: 100%; height: auto;">
+    <div class="mb-8">
+      <img src="{{ object.image.url }}"
+           class="rounded-xl shadow-lg w-full object-cover max-h-[480px]" />
     </div>
     {% endif %}
 
-
-
-
-    <!-- Post Content -->
-    <div class="prose prose-lg text-[color:var(--voxa-muted)] max-w-none leading-relaxed">
+    <!-- Content -->
+    <div class="prose prose-invert max-w-none text-lg md:text-xl 
+                leading-relaxed tracking-wide text-[color:var(--voxa-muted)]">
       {{ object.content|linebreaks }}
     </div>
 
-    <!-- Edit/Delete Actions -->
-    {% if object.author == user %}
-    <div class="flex justify-end gap-4 mt-8">
-      <a href="{% url 'post-update' object.id %}"
-         class="px-5 py-2.5 bg-[color:var(--voxa-accent)] text-black rounded-xl hover:opacity-90 shadow-md transition">
-         Edit
-      </a>
-      <a href="{% url 'post-delete' object.id %}"
-         class="px-5 py-2.5 bg-red-600 text-white rounded-xl hover:opacity-90 shadow-md transition">
-         Delete
+  </article>
+
+  <!-- AUTHOR FOOTER (Like Medium) -->
+  <div class="mt-12 bg-[color:var(--voxa-surface)] border border-gray-800 
+              p-6 rounded-2xl flex gap-4 items-center">
+
+    <img src="{{ object.author.profile.image.url }}"
+         class="w-16 h-16 rounded-full object-cover border border-gray-700">
+
+    <div>
+      <p class="text-white font-semibold text-lg">{{ object.author }}</p>
+      <p class="text-[color:var(--voxa-muted)] text-sm">
+        {{ object.author.profile.bio|default:"This author hasn’t written a bio yet." }}
+      </p>
+      <a href="{% url 'user-posts' object.author.username %}"
+         class="text-[color:var(--voxa-accent)] text-sm underline mt-1 inline-block">
+        View more posts →
       </a>
     </div>
-    {% endif %}
+  </div>
 
-  </article>
+
+  <!-- EDIT / DELETE -->
+  {% if object.author == user %}
+  <div class="mt-8 flex justify-end gap-4">
+    <a href="{% url 'post-update' object.id %}"
+       class="px-6 py-2.5 rounded-xl bg-[color:var(--voxa-accent)] text-black 
+              font-semibold shadow hover:opacity-90 transition">
+      Edit
+    </a>
+
+    <a href="{% url 'post-delete' object.id %}"
+       class="px-6 py-2.5 rounded-xl bg-red-600 text-white 
+              font-semibold shadow hover:bg-red-700 transition">
+      Delete
+    </a>
+  </div>
+  {% endif %}
+
 </div>
+
+
+<!-- READING PROGRESS SCRIPT -->
+<script>
+document.addEventListener("scroll", () => {
+  const doc = document.documentElement;
+  const progress = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  document.getElementById("reading-progress").style.width = progress + "%";
+});
+</script>
 
 {% endblock %}

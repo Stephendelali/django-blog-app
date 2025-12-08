@@ -11,6 +11,8 @@ class Profile(models.Model):
         upload_to='profile_pics'
     )
 
+    followers = models.ManyToManyField(User, related_name='following', blank=True)
+
     def __str__(self):
         return f"{self.user.username}'s Profile"
 

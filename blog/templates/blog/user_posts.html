@@ -1,70 +1,208 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-<!-- User Header -->
-<section class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl p-8 mb-8">
-  <div class="flex flex-col md:flex-row items-center gap-6">
-    
+<!-- PROFILE HEADER -->
+<section
+  class="relative rounded-2xl border border-gray-800 p-8 mb-10 overflow-hidden shadow-xl
+         bg-gradient-to-br from-[#111118] to-[#181820]">
+
+  <!-- Dynamic Gradient Accent Based on Username -->
+  <div class="absolute inset-0 opacity-40 pointer-events-none"
+       style="--hue1: {{ profile_user.id|add:40 }}; --hue2: {{ profile_user.id|add:120 }}; background: linear-gradient(135deg, hsl(var(--hue1) 70% 55%) 0%, hsl(var(--hue2) 70% 55%) 100%);">
+  </div>
+
+  <div class="relative flex flex-col md:flex-row items-center gap-6">
+
     <!-- Profile Image -->
-    <img src="{{ user.profile.image.url }}" 
-         alt="{{ user.username }}'s profile picture"
-         class="w-28 h-28 rounded-full border border-gray-700 object-cover">
-    
-    <!-- User Info -->
-    <div class="text-center md:text-left">
-      <h1 class="text-3xl font-bold text-white">{{ user.username }}</h1>
-      {% if user.profile.bio %}
-      <p class="text-[color:var(--voxa-muted)] mt-1 max-w-xl">{{ user.profile.bio }}</p>
+    <img src="{{ profile_user.profile.image.url }}"
+         class="w-24 h-24 rounded-full object-cover border-2 
+                shadow-md"
+         style="--accent-h: {{ profile_user.id|add:60 }}; border-color: hsl(var(--accent-h) 80% 65%);"
+         alt="Profile image">
+
+    <!-- USER INFO -->
+    <div class="flex-1 text-center md:text-left">
+
+      <h1 class="text-3xl font-bold text-white tracking-wide">
+        {{ profile_user.username }}
+      </h1>
+
+      {% if profile_user.profile.bio %}
+      <p class="text-[var(--voxa-muted)] mt-2 max-w-lg leading-relaxed">
+        {{ profile_user.profile.bio }}
+      </p>
       {% endif %}
 
-      <div class="flex gap-6 mt-4 text-[color:var(--voxa-muted)]">
-        <div>
-          <span class="font-semibold text-white">{{ user.post_set.count }}</span>
-          <span class="text-sm">Posts</span>
+      <!-- STATISTICS -->
+      <div class="flex justify-center md:justify-start gap-10 mt-4">
+
+        <div class="text-center">
+          <p class="text-lg font-semibold text-white">{{ profile_user.post_set.count }}</p>
+          <span class="text-sm text-[color:var(--voxa-muted)]">Posts</span>
         </div>
-        <div>
-          <span class="font-semibold text-white">{{ followers_count }}</span>
-          <span class="text-sm">Followers</span>
+
+        <div class="text-center">
+          <p id="followersCount" class="text-lg font-semibold text-white">{{ followers_count }}</p>
+          <span class="text-sm text-[color:var(--voxa-muted)]">Followers</span>
         </div>
-        <div>
-          <span class="font-semibold text-white">{{ following_count }}</span>
-          <span class="text-sm">Following</span>
+
+        <div class="text-center">
+          <p class="text-lg font-semibold text-white">{{ following_count }}</p>
+          <span class="text-sm text-[color:var(--voxa-muted)]">Following</span>
         </div>
+
       </div>
 
-      <!-- Optional: Follow/Message Buttons -->
-      {% if request.user != user %}
-      <div class="flex gap-4 mt-4">
-        <form method="POST" action="{% url 'follow-user' user.username %}">
-          {% csrf_token %}
-          <button type="submit" class="px-4 py-2 bg-[color:var(--voxa-accent)] text-black rounded-md font-semibold hover:opacity-90 transition">
-            {% if is_following %}Unfollow{% else %}Follow{% endif %}
-          </button>
-        </form>
-        <a href="{% url 'message-user' user.username %}" class="px-4 py-2 border border-gray-700 text-[color:var(--voxa-muted)] rounded-md hover:text-white transition">
-          Message
+      <!-- FOLLOW BUTTON -->
+      {% if request.user.is_authenticated and request.user != profile_user %}
+      <div class="mt-5">
+        {% csrf_token %}
+        <button id="followBtn"
+                data-username="{{ profile_user.username }}"
+              class="px-5 py-2 rounded-xl font-semibold text-black bg-[var(--voxa-accent)] hover:shadow-[0_0_12px_var(--voxa-accent)] hover:opacity-90 transition">
+          {% if is_following %}Unfollow{% else %}Follow{% endif %}
+        </button>
+      </div>
+      {% endif %}
+
+      <!-- USER ACTIONS (WHEN VIEWING OWN PROFILE) -->
+      {% if request.user == profile_user %}
+      <div class="flex justify-center md:justify-start gap-4 mt-6">
+
+        <a href="{% url 'profile' %}"
+           class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg 
+                  hover:border-[var(--voxa-accent)]
+                   transition text-white">
+          ⚙️ Edit Profile
         </a>
+
+        <a href="{% url 'post-create' %}"
+           class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg 
+                  hover:border-[color:var(--voxa-accent)] transition text-white">
+          ✏️ New Post
+        </a>
+
       </div>
       {% endif %}
+
     </div>
   </div>
 </section>
 
-<!-- Recent Posts -->
-<section>
-  <h2 class="text-2xl font-bold text-white mb-4">Recent Posts</h2>
-  <div class="space-y-4">
-    {% for post in recent_posts %}
-    <div class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
-      <h3 class="text-lg font-semibold text-white">
-        <a href="{% url 'post-detail' post.id %}" class="hover:text-[color:var(--voxa-accent)]">{{ post.title }}</a>
-      </h3>
-      <p class="text-[color:var(--voxa-muted)] mt-2 line-clamp-3">{{ post.content|truncatewords:25 }}</p>
+
+
+<!-- RECENT POSTS SECTION -->
+<h2 class="text-xl font-bold text-white mb-4">Recent Posts</h2>
+
+<div class="space-y-6">
+{% for post in recent_posts %}
+
+  <!-- POST CARD -->
+  <div
+    class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl p-6 
+           shadow-xl hover:border-[color:var(--voxa-accent)]/60
+           hover:shadow-[0_0_18px_-2px_var(--voxa-accent)] transition">
+
+    <h3 class="text-lg font-semibold text-white mb-1">
+      <a href="{% url 'post-detail' post.id %}"
+         class="hover:text-[color:var(--voxa-accent)] transition">
+        {{ post.title }}
+      </a>
+    </h3>
+
+    <p class="text-[var(--voxa-muted)] line-clamp-3 leading-relaxed">
+      {{ post.content|truncatewords:28 }}
+    </p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex gap-3 mt-4">
+
+      <button class="px-3 py-1.5 border border-gray-700 rounded-lg
+                     hover:border-[color:var(--voxa-accent)]
+                     hover:text-white transition text-[color:var(--voxa-muted)]">
+        👏
+      </button>
+
+      <button class="px-3 py-1.5 border border-gray-700 rounded-lg
+                     hover:border-[color:var(--voxa-accent)]
+                     hover:text-white transition text-[color:var(--voxa-muted)]">
+        ✨
+      </button>
+
+      <a href="{% url 'post-detail' post.id %}#comments-section"
+         class="px-3 py-1.5 border border-gray-700 rounded-lg
+                hover:border-[color:var(--voxa-accent)]
+                hover:text-white transition text-[color:var(--voxa-muted)]">
+        💬
+      </a>
+
+      <a href="mailto:?subject={{ post.title }}&body={{ post.full_url }}"
+         class="px-3 py-1.5 border border-gray-700 rounded-lg
+                hover:border-[color:var(--voxa-accent)]
+                hover:text-white transition text-[color:var(--voxa-muted)]">
+        📧
+      </a>
+
     </div>
-    {% empty %}
-      <p class="text-[color:var(--voxa-muted)]">No posts yet.</p>
-    {% endfor %}
   </div>
-</section>
+
+{% empty %}
+  <p class="text-[color:var(--voxa-muted)]">No posts available.</p>
+{% endfor %}
+</div>
+
+
+
+<!-- PAGINATION -->
+{% if is_paginated %}
+<div class="mt-6 flex justify-center gap-3 text-white">
+
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}"
+     class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition">
+    Previous
+  </a>
+  {% endif %}
+
+  <span class="px-4 py-2 bg-gray-900 rounded-lg">
+    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+  </span>
+
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}"
+     class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition">
+    Next
+  </a>
+  {% endif %}
+</div>
+{% endif %}
+
+
+
+<!-- FOLLOW / UNFOLLOW AJAX -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const followBtn = document.getElementById("followBtn");
+  if (!followBtn) return;
+
+  const token = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+  followBtn.addEventListener("click", () => {
+    fetch(`/follow/${followBtn.dataset.username}/`, {
+      method: "POST",
+      headers: { "X-CSRFToken": token }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        followBtn.textContent =
+          data.action === "followed" ? "Unfollow" : "Follow";
+        document.getElementById("followersCount").textContent =
+          data.followers_count;
+      }
+    });
+  });
+});
+</script>
 
 {% endblock %}

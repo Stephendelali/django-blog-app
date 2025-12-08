@@ -37,12 +37,15 @@
         </p>
 
         <div class="flex gap-3 pt-1">
-          <a href="{% url 'post-create' %}"
-             class="px-5 py-2.5 bg-[color:var(--voxa-accent)] text-black 
+          <a id="openCreatePost"
+            href="{% url 'post-create' %}"
+            onclick="handleCreatePostClick(event)"
+            class="px-5 py-2.5 bg-[color:var(--voxa-accent)] text-black 
                     rounded-md font-medium text-xs md:text-sm
                     hover:opacity-90 transition">
-             Create post
+            Create Post
           </a>
+
           <a href="{% url 'blog-home' %}"
              class="px-5 py-2.5 border border-gray-700 
                     text-[color:var(--voxa-muted)] rounded-md 
@@ -103,7 +106,7 @@
 
 <!-- ======================= DEV.TO ARTICLES ======================= -->
 <section class="mt-12">
-  <h3 class="text-lg font-semibold text-white mb-3">Tech articles from Dev.to</h3>
+  <h3 class="text-lg font-semibold text-white mb-3">Trending Developer Articles</h3>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
     {% for article in external_articles %}
@@ -254,5 +257,8 @@
     {% endfor %}
   </div>
 </section>
+
+
+
 
 {% endblock %}
