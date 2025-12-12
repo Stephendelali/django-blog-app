@@ -1,181 +1,263 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-<!-- PROFILE HEADER -->
-<section
-  class="relative rounded-2xl border border-gray-800 p-8 mb-10 overflow-hidden shadow-xl
-         bg-gradient-to-br from-[#111118] to-[#181820]">
+<div class="max-w-4xl mx-auto px-4 md:px-0">
 
-  <!-- Dynamic Gradient Accent Based on Username -->
-  <div class="absolute inset-0 opacity-40 pointer-events-none"
-       style="--hue1: {{ profile_user.id|add:40 }}; --hue2: {{ profile_user.id|add:120 }}; background: linear-gradient(135deg, hsl(var(--hue1) 70% 55%) 0%, hsl(var(--hue2) 70% 55%) 100%);">
-  </div>
+  <!-- PROFILE HEADER -->
+  <section class="relative rounded-xl border border-gray-800 p-6 md:p-8 mb-8 overflow-hidden
+                  bg-[color:var(--voxa-surface)]">
 
-  <div class="relative flex flex-col md:flex-row items-center gap-6">
-
-    <!-- Profile Image -->
-    <img src="{{ profile_user.profile.image.url }}"
-         class="w-24 h-24 rounded-full object-cover border-2 
-                shadow-md"
-         style="--accent-h: {{ profile_user.id|add:60 }}; border-color: hsl(var(--accent-h) 80% 65%);"
-         alt="Profile image">
-
-    <!-- USER INFO -->
-    <div class="flex-1 text-center md:text-left">
-
-      <h1 class="text-3xl font-bold text-white tracking-wide">
-        {{ profile_user.username }}
-      </h1>
-
-      {% if profile_user.profile.bio %}
-      <p class="text-[var(--voxa-muted)] mt-2 max-w-lg leading-relaxed">
-        {{ profile_user.profile.bio }}
-      </p>
-      {% endif %}
-
-      <!-- STATISTICS -->
-      <div class="flex justify-center md:justify-start gap-10 mt-4">
-
-        <div class="text-center">
-          <p class="text-lg font-semibold text-white">{{ profile_user.post_set.count }}</p>
-          <span class="text-sm text-[color:var(--voxa-muted)]">Posts</span>
-        </div>
-
-        <div class="text-center">
-          <p id="followersCount" class="text-lg font-semibold text-white">{{ followers_count }}</p>
-          <span class="text-sm text-[color:var(--voxa-muted)]">Followers</span>
-        </div>
-
-        <div class="text-center">
-          <p class="text-lg font-semibold text-white">{{ following_count }}</p>
-          <span class="text-sm text-[color:var(--voxa-muted)]">Following</span>
-        </div>
-
+    <!-- Subtle gradient overlay matching homepage style -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute -left-20 -top-20 w-[300px] h-[200px] rounded-full blur-[80px] opacity-20"
+           style="background: radial-gradient(circle, rgba(140,92,255,0.4), transparent 60%);">
       </div>
-
-      <!-- FOLLOW BUTTON -->
-      {% if request.user.is_authenticated and request.user != profile_user %}
-      <div class="mt-5">
-        {% csrf_token %}
-        <button id="followBtn"
-                data-username="{{ profile_user.username }}"
-              class="px-5 py-2 rounded-xl font-semibold text-black bg-[var(--voxa-accent)] hover:shadow-[0_0_12px_var(--voxa-accent)] hover:opacity-90 transition">
-          {% if is_following %}Unfollow{% else %}Follow{% endif %}
-        </button>
+      <div class="absolute -right-10 -bottom-10 w-[200px] h-[150px] rounded-full blur-[70px] opacity-15"
+           style="background: radial-gradient(circle, rgba(90,160,255,0.3), transparent 60%);">
       </div>
-      {% endif %}
-
-      <!-- USER ACTIONS (WHEN VIEWING OWN PROFILE) -->
-      {% if request.user == profile_user %}
-      <div class="flex justify-center md:justify-start gap-4 mt-6">
-
-        <a href="{% url 'profile' %}"
-           class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg 
-                  hover:border-[var(--voxa-accent)]
-                   transition text-white">
-          ⚙️ Edit Profile
-        </a>
-
-        <a href="{% url 'post-create' %}"
-           class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg 
-                  hover:border-[color:var(--voxa-accent)] transition text-white">
-          ✏️ New Post
-        </a>
-
-      </div>
-      {% endif %}
-
     </div>
-  </div>
-</section>
 
+    <div class="relative flex flex-col md:flex-row items-center md:items-start gap-6">
 
+      <!-- Profile Image -->
+      <div class="relative">
+        <img src="{{ profile_user.profile.image.url }}"
+             class="w-20 h-20 rounded-full object-cover border-2 border-white/10 
+                    shadow-lg"
+             alt="Profile image">
+        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full 
+                    border-2 border-[color:var(--voxa-surface)]"></div>
+      </div>
 
-<!-- RECENT POSTS SECTION -->
-<h2 class="text-xl font-bold text-white mb-4">Recent Posts</h2>
+      <!-- USER INFO -->
+      <div class="flex-1 text-center md:text-left">
 
-<div class="space-y-6">
-{% for post in recent_posts %}
+        <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+          <h1 class="text-2xl font-semibold text-white">
+            {{ profile_user.username }}
+          </h1>
+          <svg class="w-5 h-5 text-[color:var(--voxa-accent)]" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+        </div>
 
-  <!-- POST CARD -->
-  <div
-    class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl p-6 
-           shadow-xl hover:border-[color:var(--voxa-accent)]/60
-           hover:shadow-[0_0_18px_-2px_var(--voxa-accent)] transition">
+        {% if profile_user.profile.bio %}
+        <p class="text-[color:var(--voxa-muted)] text-sm max-w-lg leading-relaxed mb-4">
+          {{ profile_user.profile.bio }}
+        </p>
+        {% endif %}
 
-    <h3 class="text-lg font-semibold text-white mb-1">
-      <a href="{% url 'post-detail' post.id %}"
-         class="hover:text-[color:var(--voxa-accent)] transition">
-        {{ post.title }}
-      </a>
-    </h3>
+        <!-- STATISTICS -->
+        <div class="flex justify-center md:justify-start gap-8 mb-4">
 
-    <p class="text-[var(--voxa-muted)] line-clamp-3 leading-relaxed">
-      {{ post.content|truncatewords:28 }}
-    </p>
+          <div class="text-center md:text-left">
+            <p class="text-base font-semibold text-white">{{ profile_user.post_set.count }}</p>
+            <span class="text-xs text-[color:var(--voxa-muted)]">Posts</span>
+          </div>
 
-    <!-- ACTION BUTTONS -->
-    <div class="flex gap-3 mt-4">
+          <div class="text-center md:text-left">
+            <p id="followersCount" class="text-base font-semibold text-white">{{ followers_count }}</p>
+            <span class="text-xs text-[color:var(--voxa-muted)]">Followers</span>
+          </div>
 
-      <button class="px-3 py-1.5 border border-gray-700 rounded-lg
-                     hover:border-[color:var(--voxa-accent)]
-                     hover:text-white transition text-[color:var(--voxa-muted)]">
-        👏
-      </button>
+          <div class="text-center md:text-left">
+            <p class="text-base font-semibold text-white">{{ following_count }}</p>
+            <span class="text-xs text-[color:var(--voxa-muted)]">Following</span>
+          </div>
 
-      <button class="px-3 py-1.5 border border-gray-700 rounded-lg
-                     hover:border-[color:var(--voxa-accent)]
-                     hover:text-white transition text-[color:var(--voxa-muted)]">
-        ✨
-      </button>
+        </div>
 
-      <a href="{% url 'post-detail' post.id %}#comments-section"
-         class="px-3 py-1.5 border border-gray-700 rounded-lg
-                hover:border-[color:var(--voxa-accent)]
-                hover:text-white transition text-[color:var(--voxa-muted)]">
-        💬
-      </a>
+        <!-- FOLLOW BUTTON & ACTIONS -->
+        <div class="flex flex-wrap justify-center md:justify-start gap-3">
+          
+          {% if request.user.is_authenticated and request.user != profile_user %}
+            {% csrf_token %}
+            <button id="followBtn"
+                    data-username="{{ profile_user.username }}"
+                    class="inline-flex items-center gap-1.5 px-5 py-2 rounded-md 
+                           bg-[color:var(--voxa-accent)] text-black font-medium text-sm
+                           hover:opacity-90 transition-opacity">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+              </svg>
+              {% if is_following %}Unfollow{% else %}Follow{% endif %}
+            </button>
+          {% endif %}
 
-      <a href="mailto:?subject={{ post.title }}&body={{ post.full_url }}"
-         class="px-3 py-1.5 border border-gray-700 rounded-lg
-                hover:border-[color:var(--voxa-accent)]
-                hover:text-white transition text-[color:var(--voxa-muted)]">
-        📧
-      </a>
+          {% if request.user == profile_user %}
+            <a href="{% url 'profile' %}"
+               class="inline-flex items-center gap-1.5 px-5 py-2 rounded-md 
+                      backdrop-blur-md bg-white/5 border border-white/10 text-white 
+                      font-medium text-sm hover:bg-white/10 transition-all">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              Edit Profile
+            </a>
 
+            <a href="{% url 'post-create' %}"
+               class="inline-flex items-center gap-1.5 px-5 py-2 rounded-md 
+                      border border-gray-700 text-[color:var(--voxa-muted)] 
+                      font-medium text-sm hover:text-white hover:border-gray-600 transition-all">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              New Post
+            </a>
+          {% endif %}
+
+        </div>
+
+      </div>
     </div>
+  </section>
+
+
+
+  <!-- RECENT POSTS SECTION -->
+  <div class="mb-6">
+    <h2 class="text-lg font-semibold text-white mb-4">Recent Posts</h2>
+
+    <div class="space-y-4">
+    {% for post in recent_posts %}
+
+      <!-- POST CARD -->
+      <article class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-xl p-5 
+                      hover:border-gray-700 transition-colors duration-200">
+
+        <div class="flex gap-4">
+          
+          <!-- Post Image (if exists) -->
+          {% if post.image %}
+          <div class="hidden sm:block flex-shrink-0">
+            <img src="{{ post.image.url }}" 
+                 class="w-20 h-20 object-cover rounded-lg"
+                 alt="{{ post.title }}">
+          </div>
+          {% endif %}
+
+          <div class="flex-1 min-w-0">
+            <h3 class="text-base font-semibold text-white mb-1 leading-tight">
+              <a href="{% url 'post-detail' post.id %}"
+                 class="hover:text-[color:var(--voxa-accent)] transition-colors">
+                {{ post.title }}
+              </a>
+            </h3>
+
+            <p class="text-[color:var(--voxa-muted)] text-sm line-clamp-2 leading-relaxed mb-3">
+              {{ post.content|truncatewords:20 }}
+            </p>
+
+            <!-- META & ACTIONS -->
+            <div class="flex items-center justify-between">
+              
+              <div class="flex items-center gap-3 text-xs text-[color:var(--voxa-muted)]">
+                <span>{{ post.date_posted|date:"M d, Y" }}</span>
+                <span>•</span>
+                <span>5 min read</span>
+              </div>
+
+              <!-- ACTION BUTTONS -->
+              <div class="flex gap-2">
+
+                <button class="p-1.5 rounded-md backdrop-blur-md bg-white/5 border border-white/10
+                               hover:bg-white/10 hover:text-red-400 transition-all
+                               text-gray-400 text-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M12 21s-6.5-4.1-9.3-8.4C-1.1 7.4 2.1 2 7 2c2.1 0 3.7 1 5 2.6C13.3 3 14.9 2 17 2c4.9 0 8.1 5.4 4.3 10.6C18.5 16.9 12 21 12 21z"/>
+                  </svg>
+                </button>
+
+                <a href="{% url 'post-detail' post.id %}#comments-section"
+                   class="p-1.5 rounded-md backdrop-blur-md bg-white/5 border border-white/10
+                          hover:bg-white/10 hover:text-white transition-all
+                          text-gray-400 text-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </a>
+
+                <button class="p-1.5 rounded-md backdrop-blur-md bg-white/5 border border-white/10
+                               hover:bg-white/10 hover:text-[color:var(--voxa-accent)] transition-all
+                               text-gray-400 text-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z"/>
+                  </svg>
+                </button>
+
+                <button class="p-1.5 rounded-md backdrop-blur-md bg-white/5 border border-white/10
+                               hover:bg-white/10 hover:text-blue-400 transition-all
+                               text-gray-400 text-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                  </svg>
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    {% empty %}
+      <div class="text-center py-12">
+        <svg class="w-16 h-16 mx-auto text-gray-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <p class="text-[color:var(--voxa-muted)] text-sm">No posts yet.</p>
+      </div>
+    {% endfor %}
+    </div>
+
   </div>
 
-{% empty %}
-  <p class="text-[color:var(--voxa-muted)]">No posts available.</p>
-{% endfor %}
-</div>
 
 
+  <!-- PAGINATION -->
+  {% if is_paginated %}
+  <div class="mt-6 flex justify-center items-center gap-2">
 
-<!-- PAGINATION -->
-{% if is_paginated %}
-<div class="mt-6 flex justify-center gap-3 text-white">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}"
+       class="px-4 py-2 rounded-md backdrop-blur-md bg-white/5 border border-white/10 
+              text-white text-sm font-medium hover:bg-white/10 transition-all">
+      Previous
+    </a>
+    {% else %}
+    <span class="px-4 py-2 rounded-md bg-gray-900 border border-gray-800 
+                 text-gray-600 text-sm font-medium cursor-not-allowed">
+      Previous
+    </span>
+    {% endif %}
 
-  {% if page_obj.has_previous %}
-  <a href="?page={{ page_obj.previous_page_number }}"
-     class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition">
-    Previous
-  </a>
+    <span class="px-4 py-2 rounded-md bg-[color:var(--voxa-accent)] text-black text-sm font-medium">
+      {{ page_obj.number }}
+    </span>
+
+    <span class="text-[color:var(--voxa-muted)] text-sm">of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}"
+       class="px-4 py-2 rounded-md backdrop-blur-md bg-white/5 border border-white/10 
+              text-white text-sm font-medium hover:bg-white/10 transition-all">
+      Next
+    </a>
+    {% else %}
+    <span class="px-4 py-2 rounded-md bg-gray-900 border border-gray-800 
+                 text-gray-600 text-sm font-medium cursor-not-allowed">
+      Next
+    </span>
+    {% endif %}
+
+  </div>
   {% endif %}
 
-  <span class="px-4 py-2 bg-gray-900 rounded-lg">
-    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
-  </span>
-
-  {% if page_obj.has_next %}
-  <a href="?page={{ page_obj.next_page_number }}"
-     class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition">
-    Next
-  </a>
-  {% endif %}
 </div>
-{% endif %}
 
 
 
@@ -188,6 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
   followBtn.addEventListener("click", () => {
+    const isFollowing = followBtn.textContent.trim() === "Unfollow";
+    
     fetch(`/follow/${followBtn.dataset.username}/`, {
       method: "POST",
       headers: { "X-CSRFToken": token }
@@ -195,10 +279,28 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(r => r.json())
     .then(data => {
       if (data.success) {
-        followBtn.textContent =
-          data.action === "followed" ? "Unfollow" : "Follow";
-        document.getElementById("followersCount").textContent =
-          data.followers_count;
+        // Update button text
+        const newText = data.action === "followed" ? "Unfollow" : "Follow";
+        const icon = followBtn.querySelector('svg');
+        
+        if (data.action === "followed") {
+          followBtn.innerHTML = `
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            Unfollow
+          `;
+        } else {
+          followBtn.innerHTML = `
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Follow
+          `;
+        }
+        
+        // Update followers count
+        document.getElementById("followersCount").textContent = data.followers_count;
       }
     });
   });

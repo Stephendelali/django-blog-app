@@ -1,41 +1,129 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-<div class="flex justify-center items-center min-h-[70vh] px-4">
-  <div class="bg-[color:var(--voxa-surface)] border border-gray-800 rounded-2xl p-10 w-full max-w-md text-center shadow-lg">
+<div class="flex justify-center items-center min-h-[75vh] px-4">
+  <div class="relative w-full max-w-md">
+    
+    <!-- Main Card -->
+    <div class="relative rounded-2xl overflow-hidden
+                bg-gradient-to-b from-[#0b0713] to-[#0b0b10]">
+      
+      <!-- Animated Glow Background -->
+      <div class="absolute inset-0 pointer-events-none">
+        <!-- Center purple glow -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+                    w-[400px] h-[400px] rounded-full blur-[120px] opacity-30 animate-pulse"
+             style="background: radial-gradient(circle, rgba(124,58,237,0.5), transparent 70%); 
+                    animation-duration: 3s;">
+        </div>
+        
+        <!-- Accent teal glow -->
+        <div class="absolute right-0 bottom-0 w-[250px] h-[250px] 
+                    rounded-full blur-[100px] opacity-20"
+             style="background: radial-gradient(circle, rgba(34,211,238,0.4), transparent 70%);">
+        </div>
+      </div>
 
-    <!-- Icon -->
-    <div class="flex justify-center mb-4">
-      <div class="w-14 h-14 flex items-center justify-center rounded-full bg-gray-800 text-white text-2xl shadow-inner">
-        👋
+      <!-- Content -->
+      <div class="relative z-10 p-10 text-center">
+        
+        <!-- Icon with gradient border -->
+        <div class="flex justify-center mb-6">
+          <div class="relative">
+            <!-- Gradient ring -->
+            <div class="absolute inset-0 rounded-full bg-gradient-to-br 
+                        from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] 
+                        blur-md opacity-60 animate-pulse"
+                 style="animation-duration: 2s;">
+            </div>
+            
+            <!-- Icon container -->
+            <div class="relative w-20 h-20 flex items-center justify-center rounded-full 
+                        bg-gradient-to-br from-[color:var(--voxa-accent)]/20 to-[color:var(--voxa-accent-2)]/20
+                        border-2 border-[color:var(--voxa-accent)]/50 
+                        shadow-2xl shadow-purple-900/50">
+              <span class="text-4xl">👋</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2 class="text-2xl font-semibold text-white mb-3">
+          You've been logged out
+        </h2>
+
+        <!-- Message -->
+        <p class="text-[color:var(--voxa-muted)] text-sm mb-8 leading-relaxed max-w-xs mx-auto">
+          Thanks for spending time on Voxa. Come back anytime — the conversation never stops.
+        </p>
+
+        <!-- Buttons -->
+        <div class="space-y-3">
+          <button id="loginBtnLogout"
+                  class="w-full px-6 py-3 rounded-lg font-semibold text-white
+                         bg-gradient-to-r from-[color:var(--voxa-accent)] to-purple-600
+                         hover:opacity-90 transition-all shadow-lg shadow-purple-900/30">
+            Log In Again
+          </button>
+
+          <a href="{% url 'blog-home' %}" 
+             class="block w-full px-6 py-3 rounded-lg font-medium text-[color:var(--voxa-muted)]
+                    border border-gray-700 hover:text-white hover:border-gray-500 transition-all">
+            Back to Home
+          </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-white/10 mt-8 pt-6 text-sm text-[color:var(--voxa-muted)]">
+          Don't have an account?
+          <button id="joinBtnLogout" 
+                  class="text-[color:var(--voxa-accent-2)] font-semibold hover:underline ml-1">
+            Create one
+          </button>
+        </div>
+
       </div>
     </div>
 
-    <!-- Title -->
-    <h2 class="text-3xl font-semibold text-white mb-3">
-      You’ve been logged out
-    </h2>
-
-    <!-- Message -->
-    <p class="text-[color:var(--voxa-muted)] mb-8 leading-relaxed">
-      Thanks for spending time on Voxa.  
-      Come back anytime — the conversation never stops.
-    </p>
-
-    <!-- Login Button -->
-    <a href="{% url 'login' %}" 
-       class="inline-block px-6 py-2.5 rounded-xl font-semibold text-black bg-[color:var(--voxa-accent)] hover:opacity-90 transition shadow-md">
-      Log In Again
-    </a>
-
-    <!-- Footer -->
-    <div class="border-t border-gray-800 mt-8 pt-5 text-sm text-[color:var(--voxa-muted)]">
-      Don’t have an account?
-      <a href="{% url 'register' %}" class="text-[color:var(--voxa-accent)] font-semibold hover:underline">
-        Create one
-      </a>
+    <!-- Floating particles effect (optional decoration) -->
+    <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full 
+                bg-purple-500/10 blur-2xl animate-pulse"
+         style="animation-duration: 4s; animation-delay: 0.5s;">
     </div>
+    <div class="absolute -bottom-4 -left-4 w-24 h-24 rounded-full 
+                bg-teal-500/10 blur-2xl animate-pulse"
+         style="animation-duration: 3s;">
+    </div>
+
   </div>
 </div>
+
+<script>
+// Trigger login modal
+document.getElementById('loginBtnLogout')?.addEventListener('click', () => {
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      modal.classList.remove('opacity-0');
+      modal.querySelector('div').classList.remove('scale-90');
+      modal.querySelector('div').classList.add('scale-100');
+    });
+  }
+});
+
+// Trigger join modal
+document.getElementById('joinBtnLogout')?.addEventListener('click', () => {
+  const modal = document.getElementById('joinModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      modal.classList.remove('opacity-0');
+      modal.querySelector('div').classList.remove('scale-90');
+      modal.querySelector('div').classList.add('scale-100');
+    });
+  }
+});
+</script>
 
 {% endblock content %}

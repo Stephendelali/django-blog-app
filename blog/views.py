@@ -173,17 +173,6 @@ class LandingView(TemplateView):
     
 
 
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from dj_rest_auth.registration.views import SocialLoginView
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
-@method_decorator(csrf_exempt, name='dispatch')
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
-
-
-
 def tech_feed(request):
     url = "https://dev.to/api/articles?per_page=10"
     response = requests.get(url)

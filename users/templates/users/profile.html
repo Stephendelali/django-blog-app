@@ -1,97 +1,289 @@
 {% extends "blog/base.html" %}
 {% block content %}
 
-{% if u_form.non_field_errors %}
-    <div class="voxa-error mb-6 text-red-400 text-sm font-medium 
-                border border-red-500/20 bg-red-500/10 px-4 py-3 rounded-xl shadow 
-                shadow-red-500/20">
-        {{ u_form.non_field_errors.0 }}
-    </div>
-{% endif %}
+<div class="max-w-5xl mx-auto mt-8 mb-16">
 
-<div class="max-w-3xl mx-auto bg-[color:var(--voxa-surface)] border border-white/5 rounded-2xl p-10 shadow-xl backdrop-blur-xl">
-
-    <!-- HEADER -->
-    <div class="flex items-center gap-6 mb-12">
-        <img src="{{ user.profile.image.url }}"
-             class="w-28 h-28 rounded-2xl object-cover border border-white/10 shadow-lg" />
-
-        <div>
-            <h2 class="text-3xl font-semibold text-white tracking-tight">{{ user.username }}</h2>
-            <p class="text-[color:var(--voxa-muted)] text-sm">{{ user.email }}</p>
-        </div>
+    <!-- Header Section -->
+    <div class="mb-8">
+        <a href="{% url 'blog-home' %}" 
+           class="inline-flex items-center gap-2 text-sm text-[color:var(--voxa-muted)] hover:text-white transition mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to home
+        </a>
+        
+        <h1 class="text-2xl font-semibold text-white">Profile Settings</h1>
+        <p class="text-sm text-[color:var(--voxa-muted)] mt-1">
+            Manage your account information and preferences
+        </p>
     </div>
 
-    <!-- FORM -->
-    <form method="POST" enctype="multipart/form-data" class="space-y-7">
-        {% csrf_token %}
+    <!-- Error Messages -->
+    {% if u_form.non_field_errors %}
+        <div class="voxa-error mb-6 flex items-start gap-3 text-red-400 text-sm 
+                    border border-red-500/20 bg-red-500/10 px-4 py-3 rounded-lg">
+            <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+            </svg>
+            <span>{{ u_form.non_field_errors.0 }}</span>
+        </div>
+    {% endif %}
 
-        <!-- USERNAME -->
-        <div>
-            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
-                Username
-            </label>
+    <div class="grid md:grid-cols-3 gap-6">
 
-            <input type="text" name="username" value="{{ u_form.username.value }}"
-                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
-                    focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
+        <!-- LEFT SIDEBAR - Profile Card -->
+        <div class="md:col-span-1">
+            <div class="relative rounded-xl overflow-hidden
+                        bg-gradient-to-b from-[#0b0713] to-[#0b0b10] 
+                        border border-white/10 p-6">
+                
+                <!-- Subtle Glow -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute -left-20 -top-20 w-[300px] h-[300px] rounded-full blur-[80px] opacity-25"
+                         style="background: radial-gradient(circle, rgba(124,58,237,0.4), transparent 70%);">
+                    </div>
+                </div>
 
-            {% if u_form.username.errors %}
-                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
-                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
-                        shadow-red-500/20">
-                    {{ u_form.username.errors.0 }}
-                </p>
-            {% endif %}
+                <div class="relative z-10">
+                    <!-- Profile Image -->
+                    <div class="mb-4">
+                        <img id="currentProfileImg" 
+                             src="{{ user.profile.image.url }}"
+                             class="w-32 h-32 rounded-2xl object-cover border-2 border-white/20 shadow-xl mx-auto" 
+                             alt="{{ user.username }}" />
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="text-center">
+                        <h2 class="text-xl font-semibold text-white mb-1">{{ user.username }}</h2>
+                        <p class="text-sm text-[color:var(--voxa-muted)] mb-4">{{ user.email }}</p>
+                        
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 gap-3 mt-6 pt-6 border-t border-white/10">
+                            <div>
+                                <p class="text-2xl font-bold text-white">{{ user.post_set.count }}</p>
+                                <p class="text-xs text-[color:var(--voxa-muted)]">Posts</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-white">{{ user.date_joined|date:"M Y" }}</p>
+                                <p class="text-xs text-[color:var(--voxa-muted)]">Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mt-4 space-y-2">
+                <a href="{% url 'user-posts' user.username %}" 
+                   class="flex items-center gap-3 px-4 py-3 bg-[color:var(--voxa-surface)] border border-gray-800 
+                          rounded-lg text-sm text-[color:var(--voxa-muted)] hover:text-white hover:border-gray-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    View My Posts
+                </a>
+                
+                <a href="{% url 'password_reset' %}" 
+                   class="flex items-center gap-3 px-4 py-3 bg-[color:var(--voxa-surface)] border border-gray-800 
+                          rounded-lg text-sm text-[color:var(--voxa-muted)] hover:text-white hover:border-gray-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                    </svg>
+                    Reset Password
+                </a>
+            </div>
         </div>
 
+        <!-- RIGHT CONTENT - Edit Form -->
+        <div class="md:col-span-2">
+            <div class="relative rounded-xl overflow-hidden
+                        bg-gradient-to-b from-[#0b0713] to-[#0b0b10]">
+                
+                <!-- Subtle Glow -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute right-0 -top-20 w-[400px] h-[300px] rounded-full blur-[100px] opacity-20"
+                         style="background: radial-gradient(circle, rgba(34,211,238,0.3), transparent 70%);">
+                    </div>
+                </div>
 
-        <!-- EMAIL -->
-        <div>
-            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
-                Email
-            </label>
+                <div class="relative z-10 p-6 md:p-8">
+                    <!-- Section Header -->
+                    <div class="mb-6 pb-4 border-b border-white/10">
+                        <h3 class="text-lg font-semibold text-white">Account Information</h3>
+                        <p class="text-xs text-[color:var(--voxa-muted)] mt-1">
+                            Update your profile details and preferences
+                        </p>
+                    </div>
 
-            <input type="email" name="email" value="{{ u_form.email.value }}"
-                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
-                    focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
+                    <!-- Form -->
+                    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                        {% csrf_token %}
 
-            {% if u_form.email.errors %}
-                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
-                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
-                        shadow-red-500/20">
-                    {{ u_form.email.errors.0 }}
-                </p>
-            {% endif %}
+                        <!-- Username Field -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Username
+                            </label>
+                            <input type="text" 
+                                   name="username" 
+                                   value="{{ u_form.username.value }}"
+                                   class="w-full bg-[color:var(--voxa-surface)] border border-white/10 
+                                          px-4 py-2.5 rounded-lg text-white text-sm
+                                          focus:ring-2 focus:ring-[color:var(--voxa-accent)] 
+                                          focus:border-transparent outline-none transition-all">
+                            
+                            {% if u_form.username.errors %}
+                                <div class="voxa-error mt-2 flex items-start gap-2 text-red-400 text-sm 
+                                            border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg">
+                                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                                    </svg>
+                                    <span>{{ u_form.username.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email Field -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Email Address
+                            </label>
+                            <input type="email" 
+                                   name="email" 
+                                   value="{{ u_form.email.value }}"
+                                   class="w-full bg-[color:var(--voxa-surface)] border border-white/10 
+                                          px-4 py-2.5 rounded-lg text-white text-sm
+                                          focus:ring-2 focus:ring-[color:var(--voxa-accent)] 
+                                          focus:border-transparent outline-none transition-all">
+                            
+                            {% if u_form.email.errors %}
+                                <div class="voxa-error mt-2 flex items-start gap-2 text-red-400 text-sm 
+                                            border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg">
+                                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                                    </svg>
+                                    <span>{{ u_form.email.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Profile Image Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Profile Picture
+                            </label>
+                            
+                            <div class="relative">
+                                <input type="file" 
+                                       name="image" 
+                                       id="imageUpload"
+                                       accept="image/*"
+                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                
+                                <div class="bg-[color:var(--voxa-surface)] border border-dashed border-white/20 
+                                            rounded-lg px-4 py-6 text-center
+                                            hover:border-[color:var(--voxa-accent)] hover:bg-white/5
+                                            transition-all cursor-pointer">
+                                    <svg class="w-8 h-8 mx-auto text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <p class="text-sm text-gray-400">
+                                        <span class="text-[color:var(--voxa-accent)] font-medium">Click to upload</span>
+                                        or drag and drop
+                                    </p>
+                                    <p class="text-xs text-[color:var(--voxa-muted)] mt-1">
+                                        PNG, JPG up to 5MB
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Image Preview -->
+                            <div id="imagePreview" class="hidden mt-3 rounded-lg overflow-hidden border border-white/10">
+                                <img id="previewImg" src="" alt="Preview" class="w-full h-48 object-cover">
+                            </div>
+                            
+                            {% if p_form.image.errors %}
+                                <div class="voxa-error mt-2 flex items-start gap-2 text-red-400 text-sm 
+                                            border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg">
+                                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                                    </svg>
+                                    <span>{{ p_form.image.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                            <a href="{% url 'blog-home' %}"
+                               class="px-5 py-2.5 border border-gray-700 text-[color:var(--voxa-muted)] 
+                                      rounded-lg text-sm font-medium
+                                      hover:text-white hover:border-gray-500 transition">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="px-6 py-2.5 bg-gradient-to-r from-[color:var(--voxa-accent)] to-purple-600
+                                           text-white rounded-lg text-sm font-semibold
+                                           hover:opacity-90 shadow-lg shadow-purple-900/30
+                                           transition-all">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Activity Section -->
+            <div class="mt-6 bg-[color:var(--voxa-surface)] border border-gray-800 rounded-lg p-5">
+                <h4 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[color:var(--voxa-accent)]" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                    </svg>
+                    Recent Activity
+                </h4>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-[color:var(--voxa-muted)]">Last login</span>
+                        <span class="text-white font-medium">{{ user.last_login|date:"M d, Y - g:i A" }}</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-[color:var(--voxa-muted)]">Account created</span>
+                        <span class="text-white font-medium">{{ user.date_joined|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-[color:var(--voxa-muted)]">Total posts</span>
+                        <span class="text-white font-medium">{{ user.post_set.count }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- PROFILE IMAGE -->
-        <div>
-            <label class="block text-sm font-medium text-[color:var(--voxa-muted)] mb-1">
-                Profile Image
-            </label>
-
-            <input type="file" name="image"
-                class="w-full bg-[#0b0d12] border border-white/10 px-4 py-3 rounded-xl text-white 
-                    file:bg-[color:var(--voxa-accent)] file:text-black file:px-4 file:py-2 
-                    file:rounded-lg focus:ring-2 focus:ring-[color:var(--voxa-accent)] outline-none">
-
-            {% if p_form.image.errors %}
-                <p class="voxa-error mt-2 text-red-400 text-sm font-medium 
-                        border border-red-500/20 bg-red-500/10 px-3 py-2 rounded-lg shadow 
-                        shadow-red-500/20">
-                    {{ p_form.image.errors.0 }}
-                </p>
-            {% endif %}
-        </div>
-
-
-        <!-- SUBMIT -->
-        <button type="submit"
-            class="w-full py-3 rounded-xl font-semibold text-black shadow-lg bg-gradient-to-r from-[color:var(--voxa-accent)] to-[color:var(--voxa-accent-2)] hover:opacity-95 transition">
-            Update Profile
-        </button>
-    </form>
+    </div>
 </div>
+
+<script>
+// Image preview functionality
+document.getElementById('imageUpload')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            // Update preview
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            previewImg.src = event.target.result;
+            preview.classList.remove('hidden');
+            
+            // Update sidebar profile image
+            const currentImg = document.getElementById('currentProfileImg');
+            currentImg.src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
 {% endblock content %}
