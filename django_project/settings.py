@@ -13,18 +13,21 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-load_dotenv()
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# Load environment variables from the .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j$gh)+el6dn8ic+*i+70c@gf!#u3%p*x_*$_4c-@0m@x^@(nr&'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +41,10 @@ INSTALLED_APPS = [
     # your apps
     "blog",
     "users",
+
+    # Crispy Forms
+    "crispy_forms",
+    "crispy_bootstrap4",
 
     # Django
     "django.contrib.admin",
@@ -73,7 +80,7 @@ ROOT_URLCONF = 'django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -160,8 +167,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_ON_GET = True
 
-# Load environment variables from the .env file
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -190,9 +196,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": os.getenv("GOOGLE_SECRET"),
             "key": ""
         },
-                "AUTH_PARAMS": {
-            "access_type": "online",
-        }
+
     }
 }
 
@@ -204,18 +208,17 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 
 
-# Add these settings
+
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_QUERY_EMAIL = True
+
 
 
 
 
 # Allow login by username or email
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+
 
 # REST Framework
 REST_FRAMEWORK = {
@@ -225,9 +228,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-# dj-rest-auth settings
-REST_USE_JWT = False 
-ACCOUNT_LOGOUT_ON_GET = True
+
 
 REST_AUTH_SOCIAL_USE_TOKEN = True
 
