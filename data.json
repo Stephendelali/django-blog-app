@@ -1,0 +1,474 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$wGcDl5Zk2hz1M6wXYdD3AS$47YnBdHI/QD/qHOUJz0pxItNN1FFZu3Abl1Gt/jswIM=",
+    "last_login": "2025-12-12T16:46:53.505Z",
+    "is_superuser": true,
+    "username": "Delali",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-02T12:21:27.104Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$8OlvhCZ3NUPcgxaqCFA47L$KFFPIV1KiXSXoIHhYisY5lzZlTAdjAz8/sRL5BYCj98=",
+    "last_login": "2025-12-09T08:14:27Z",
+    "is_superuser": false,
+    "username": "Kojo",
+    "first_name": "",
+    "last_name": "",
+    "email": "amankwastephen06@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-06T16:23:34Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "!gsfoAgZEsJ5lzE5cpYIupgK4xxa4EancYni0id89",
+    "last_login": "2025-12-12T16:05:01.420Z",
+    "is_superuser": false,
+    "username": "Steph_Mecal",
+    "first_name": "Amankwa",
+    "last_name": "Stephen",
+    "email": "amankwastephen06@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-11T17:25:56.986Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "!qZ2sJ9yl9Sh0wlLfvU0MpoEKXGEh0rNuLGC9ju5I",
+    "last_login": "2025-12-12T11:26:35.004Z",
+    "is_superuser": false,
+    "username": "stephen",
+    "first_name": "Stephen",
+    "last_name": "",
+    "email": "stephenmecal61@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-11T17:33:23.739Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "0jok3ps13qams7lj5zgzhncstelvhbvc",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEwMzDFpXu_gTBAbdXQpI-V8d-1SRe6veec-1IxbesQt6XOcSzqrKw6_W6S8qO2HZR7ardJ56mt8yh6V_RBF32dSn1eDvfvYEjL8K2RqWdjgKBSocLWBYAODVpC8ZwrYO19cEEC-MLkkIU7AeOdIHRWvT-fKDX6:1vTgiJ:an7-YCsRyXkWkECi3Sya2vEK7VRzMq1U38zHmbu0YqE",
+    "expire_date": "2025-12-25T13:28:11.400Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8sqo447no7cl1f3qiqo0v6yfdm6hxinf",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEwMzDFpXu_gTBAbdXQpI-V8d-1SRe6veec-1IxbesQt6XOcSzqrKw6_W6S8qO2HZR7ardJ56mt8yh6V_RBF32dSn1eDvfvYEjL8K2RqWdjgKBSocLWBYAODVpC8ZwrYO19cEEC-MLkkIU7AeOdIHRWvT-fKDX6:1vQPZW:VeTc_OREFptnGw0_OCMLu_k275SHwAY0o3ILpiuyhqE",
+    "expire_date": "2025-12-16T12:33:34.877Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bh9vqgbtjznd9a725gcuzxeih8nwy2ql",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEwMzDFpXu_gTBAbdXQpI-V8d-1SRe6veec-1IxbesQt6XOcSzqrKw6_W6S8qO2HZR7ardJ56mt8yh6V_RBF32dSn1eDvfvYEjL8K2RqWdjgKBSocLWBYAODVpC8ZwrYO19cEEC-MLkkIU7AeOdIHRWvT-fKDX6:1vTiIo:Qhj1KVD1MAsfNl3XFo4UKwLoXIA3KVDO5B2uhgiqwcA",
+    "expire_date": "2025-12-25T15:09:58.487Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "k5veyj2650ub9r947v79c2aa2qk59la4",
+  "fields": {
+    "session_data": ".eJxVj8tuhTAMRP_Fa4QSTF531_sbVYVMHhdUSioSukH8ewOlC3b2eOZovEGKdqSJrI3rnLuUKfsEj22v4F-jNQ9-zqOlPMa5-_J5iK543jf4m-Fxp0DJZnhwJYVArUxbG41GsqaC7yX-jM4vJfKK8TX54l3Hg8BZi9woxhtttJSCCS047B8VnAW6NfmlO50t3LSe7KefjwNN0yHXV4369FznVL_d3nheqRtqoDQUjg3OWhaYZui0UmVrA_kQHHpkSFIY1_QCiSMpRoFME9BJ26LsGafGwf4LKupxiA:1vU1IB:enTQMeUfR2Wz2Ru-Gx9upPaHg5OX_aADVIxL8Db7ZE4",
+    "expire_date": "2025-12-26T11:26:35.021Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "k94anrqo4ve9a4clgiexjuwdckn006c8",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEwMzDFpXu_gTBAbdXQpI-V8d-1SRe6veec-1IxbesQt6XOcSzqrKw6_W6S8qO2HZR7ardJ56mt8yh6V_RBF32dSn1eDvfvYEjL8K2RqWdjgKBSocLWBYAODVpC8ZwrYO19cEEC-MLkkIU7AeOdIHRWvT-fKDX6:1vU6I9:zDiqy7TKV9trtHL-a_adjVdTMGvEQyf35WacuxxpM7Q",
+    "expire_date": "2025-12-26T16:46:53.515Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xqn1ijq98rtgmfm530dvu80jep8vwo5h",
+  "fields": {
+    "session_data": ".eJytjk1rgzAYx7_Lc5agSfQx3tpRBmM9dVBhFMmb1VaS1sRdxO8-y3rpfdf_7_82Q_C6l4PU2k8uNiHKaANUMxzeRf1Ri_oyHLrjziuovme4jV7bsHIY_Ll3kICRUULlpmFI4HbVttHe2ObHjn3b2_GPLEmGRc6RipKRlGOJnJ4S2H_eN7sjtnzjvug9vv3DAqNlSTDPeCH4aUmgkVPsminYsenN2pnBi6akvlr3AOYi3dkT7V0ce0UeFvKkgezXwWH79L4UdDJ0a5ohbzFNKaeWG24wywWlJUtZxpkqUFvKbFuIXChBC4M8Z6iwVDQtcrVezmD5BQq1fds:1vTkLu:9DTIifVaob6homkQuzmGLUZ4TeiYo7TNMSJK3iPGn-U",
+    "expire_date": "2025-12-25T17:21:18.422Z"
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "127.0.0.1:8000",
+    "name": "localhost:8000"
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Steph_Mecal"
+    ],
+    "email": "amankwastephen06@gmail.com",
+    "verified": true,
+    "primary": true
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "stephen"
+    ],
+    "email": "stephenmecal61@gmail.com",
+    "verified": true,
+    "primary": true
+  }
+},
+{
+  "model": "socialaccount.socialaccount",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Steph_Mecal"
+    ],
+    "provider": "google",
+    "uid": "107797117151567187194",
+    "last_login": "2025-12-12T16:05:01.374Z",
+    "date_joined": "2025-12-11T17:25:57.050Z",
+    "extra_data": {
+      "aud": "533139880872-op5lsg8sph4ukhp7n03p3dcqlnesk0lj.apps.googleusercontent.com",
+      "azp": "533139880872-op5lsg8sph4ukhp7n03p3dcqlnesk0lj.apps.googleusercontent.com",
+      "exp": 1765559102,
+      "iat": 1765555502,
+      "iss": "https://accounts.google.com",
+      "sub": "107797117151567187194",
+      "name": "Amankwa Stephen",
+      "email": "amankwastephen06@gmail.com",
+      "at_hash": "cxDb0jDHUojO_zlFa8pZQA",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocLKE03BOG6zdAUdztHVOUZ5xqdjLeORAdWWYIFD5GmZqfThTw=s96-c",
+      "given_name": "Amankwa",
+      "family_name": "Stephen",
+      "email_verified": true
+    }
+  }
+},
+{
+  "model": "socialaccount.socialaccount",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "stephen"
+    ],
+    "provider": "google",
+    "uid": "104319701289866505851",
+    "last_login": "2025-12-12T11:26:34.975Z",
+    "date_joined": "2025-12-11T17:33:23.768Z",
+    "extra_data": {
+      "aud": "533139880872-op5lsg8sph4ukhp7n03p3dcqlnesk0lj.apps.googleusercontent.com",
+      "azp": "533139880872-op5lsg8sph4ukhp7n03p3dcqlnesk0lj.apps.googleusercontent.com",
+      "exp": 1765542395,
+      "iat": 1765538795,
+      "iss": "https://accounts.google.com",
+      "sub": "104319701289866505851",
+      "name": "Stephen",
+      "email": "stephenmecal61@gmail.com",
+      "at_hash": "wc__EvjWxQizuc7wY2s4TA",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocJhTQJbObksUxXbQj1uSmBOB_Ve44eyhlsYBjhEqUldxUPnhg=s96-c",
+      "given_name": "Stephen",
+      "email_verified": true
+    }
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-12-11T13:21:34.575Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "127.0.0.1:8000",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\", \"Display name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-12-11T13:26:12.858Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "127.0.0.1:8000",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-12-11T13:51:09.054Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "127.0.0.1:8000",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-12-11T15:10:43.495Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "localhost:8000",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\", \"Display name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-12-11T17:22:04.641Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "127.0.0.1:8000",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-12-11T17:22:13.179Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "127.0.0.1:8000",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-12-12T15:59:30.952Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "Kojo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-12-12T15:59:55.731Z",
+    "user": [
+      "Delali"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "Kojo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Delali"
+    ],
+    "bio": "",
+    "image": "profile_pics/default.png",
+    "followers": []
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Kojo"
+    ],
+    "bio": "",
+    "image": "profile_pics/kojo.jpg",
+    "followers": []
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "Steph_Mecal"
+    ],
+    "bio": "",
+    "image": "profile_pics/download.png",
+    "followers": []
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "stephen"
+    ],
+    "bio": "",
+    "image": "profile_pics/default.jpg",
+    "followers": []
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 1,
+  "fields": {
+    "author": [
+      "Delali"
+    ],
+    "title": "The Power of Starting Small: Why Small Steps Lead to Big Results",
+    "content": "A lot of us never start because we’re waiting for the “perfect” moment the perfect plan, the perfect budget, or just the perfect amount of motivation. The truth is, progress starts the moment you take that first small step.\r\n\r\nWhether it’s learning a new skill, building something, or working on a personal project, small, consistent actions add up. Writing one page a day can become a book in a year. Improving just 1% every day can lead to huge growth over time. Even the tallest trees started as tiny seeds.\r\n\r\nStarting small also takes the pressure off. You don’t have to know everything or be perfect. You just need to take the next little step today.\r\n\r\nSo whatever you’ve been putting off, start now. Not tomorrow, not next month now. Your future self will thank you.",
+    "date_posted": "2025-12-02T14:11:14.954Z",
+    "image": "post_images/daniel-dan--FMxvHTCRmw-unsplash.jpg"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 2,
+  "fields": {
+    "author": [
+      "Delali"
+    ],
+    "title": "Why Every Developer Should Learn Docker in 2025",
+    "content": "The software industry has evolved dramatically over the past few years, and one of the biggest shifts has been the move toward containerization. Docker has become the unofficial standard for packaging, shipping, and deploying applications, and its influence continues to grow in 2025.\r\n\r\nMost developers start learning Docker because they’re tired of hearing the phrase “it works on my machine.” With containers, you bundle your application and all its dependencies into a lightweight, consistent environment — meaning it behaves exactly the same on every system. This alone makes Docker worth learning.\r\n\r\nBut the real power of Docker becomes clear when you start working with microservices, cloud platforms, and CI/CD pipelines. Tools like Kubernetes, GitHub Actions, and AWS ECS all rely heavily on containers. Companies want developers who understand how to build, optimize, and deploy with Docker.\r\n\r\nWhether you're aiming to work in DevOps, backend development, or cloud engineering, Docker will make you faster, more efficient, and more valuable in the job market. If there’s one skill to invest in this year, it’s containerization.",
+    "date_posted": "2025-12-06T13:18:14.724Z",
+    "image": "post_images/rubaitul-azad-HSACbYjZsqQ-unsplash.jpg"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 3,
+  "fields": {
+    "author": [
+      "Delali"
+    ],
+    "title": "How I Built My First Django API And What I Learned",
+    "content": "A few months ago, I decided to challenge myself by building a small but functional Django REST API. At first, I thought it would be just another tutorial project — but it turned out to be one of the best learning experiences I’ve had.\r\n\r\nI started by setting up a clean Django project, then installed Django REST Framework and created my first serializer. That’s when things clicked for me: serializers act as the bridge between the database and the outside world. They validate input, structure output, and make sure your API behaves reliably.\r\n\r\nNext came the API views and routing. I built a simple CRUD system for managing data, and it helped me understand how HTTP methods translate into actions like creating, updating, retrieving, and deleting objects.\r\nAlong the way, I ran into errors, lots of them. But every issue taught me something about data modeling, query optimization, and clean architecture.\r\n\r\nBy the end, I had a working API that could handle real data. More importantly, I understood why things worked. If you’re a beginner, I highly recommend building a small API. It teaches you problem-solving, gives you backend confidence, and makes your portfolio stand out.",
+    "date_posted": "2025-12-06T13:21:52.662Z",
+    "image": "post_images/chris-ried-ieic5Tq8YMk-unsplash.jpg"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 4,
+  "fields": {
+    "author": [
+      "Steph_Mecal"
+    ],
+    "title": "Why Developers Are Suddenly Talking About “Micro-AI” Models",
+    "content": "Over the past year, there’s been a surprising shift in the AI community. Instead of bigger and bigger models, developers are experimenting with micro-AI - small, efficient models that run entirely on local devices.\r\n\r\nIt turns out you don’t always need a giant cloud model to get meaningful intelligence. For tasks like summarizing notes, generating email replies, or analyzing code patterns, tiny models running offline are more than enough.\r\n\r\nThe coolest part? You keep your privacy because your data never leaves your device. I think we’re heading into a future where AI feels more personal - not because it talks better, but because it’s yours.",
+    "date_posted": "2025-12-12T16:14:05.311Z",
+    "image": "post_images/futuristic-ai-chip-circuit-board.jpg"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 5,
+  "fields": {
+    "author": [
+      "Steph_Mecal"
+    ],
+    "title": "How Small AI Models Are Quietly Reshaping the Future of Technology",
+    "content": "For a long time, software teams seemed committed to embracing complexity. New libraries, new frameworks, new tools, every week introduced another piece that “needed” to be added to the stack.\r\nToday, the trend is shifting in the opposite direction.\r\n\r\nMany teams have realized that complexity isn’t a badge of innovation; it’s a silent productivity killer. Bloated stacks lead to longer onboarding times, harder debugging, and slower feature development. In response, companies are trimming the fat. They're choosing frameworks that do one job extremely well instead of ten mediocre ones.\r\n\r\nThis move toward simplicity is improving code readability, reducing dependency issues, and making systems far more reliable at scale. Developers are happier, teams collaborate more effectively, and production outages decrease dramatically.\r\n\r\nTech is rediscovering a timeless truth: the best systems aren’t the ones with the most moving parts, but the ones built with clarity and intention.",
+    "date_posted": "2025-12-12T16:34:49.243Z",
+    "image": "post_images/boliviainteligente-kECRXz0m42A-unsplash.jpg"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 6,
+  "fields": {
+    "author": [
+      "Steph_Mecal"
+    ],
+    "title": "Web3 Is Quietly Entering Its Mature Phase",
+    "content": "The loud hype cycle around Web3 has faded, but what many people don’t realize is that the technology didn’t disappear , it simply shifted into a quieter, more focused stage of development. Instead of sensational promises, the space is now driven by teams building tools that solve real problems, and the energy behind this movement is slowly reshaping how digital systems operate.\r\n\r\nThe early years of Web3 were defined by speculation, high-profile NFTs, and rapid token launches. While those moments brought the world’s attention, they also overshadowed the deeper work happening underneath. Today, developers and companies are moving away from hype-driven features and are concentrating on infrastructure improvements, user experience, and long-term sustainability.\r\n\r\nOne of the clearest signs of this maturity is the rise of decentralized identity systems. These solutions aim to give users full control over their personal data, a major shift from the centralized login systems that dominate the internet today. With decentralized identity, people can verify themselves without handing over all their information to a single company, opening a path toward a more secure and privacy-respecting digital world.\r\n\r\nAnother area gaining quiet momentum is supply chain transparency. Industries like agriculture, pharmaceuticals, and manufacturing are adopting blockchain-based tracking to verify product origins, prevent fraud, and ensure ethical sourcing. These aren’t flashy use cases, but they’re powerful, and they’re already saving businesses time and money in ways earlier Web3 projects could only imagine.\r\n\r\nGovernance tools are also evolving. Communities and organizations are experimenting with transparent voting systems, shared ownership models, and decentralized decision-making frameworks. Instead of theoretical discussions, these governance models are now being tested in real environments, from startup ecosystems to localized community projects.\r\n\r\nWhat’s happening today is a shift from speculation to practicality. Web3 is not trying to “replace the internet” anymore. Instead, it’s quietly integrating into existing systems, making them more secure, transparent, and user-owned. As the noise dies down, the real builders have space to work, and the technology is slowly finding its place in industries that value trust and transparency.\r\n\r\nThe maturity of Web3 isn’t loud or flashy, and that’s exactly why it’s becoming more impactful.",
+    "date_posted": "2025-12-12T16:45:58.934Z",
+    "image": "post_images/shutter-speed-PBTEeIadS20-unsplash.jpg"
+  }
+}
+]
