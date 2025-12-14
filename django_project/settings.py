@@ -38,7 +38,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app',".onrender.com"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app','django-blog-app-tlzg.onrender.com']
 
 
 # Application definition
@@ -222,7 +222,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 
 
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 
 
@@ -248,6 +248,7 @@ REST_AUTH_SOCIAL_USE_TOKEN = True
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
+    "https://django-blog-app-tlzg.onrender.com",
 ]
 
 
