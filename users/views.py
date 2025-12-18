@@ -16,7 +16,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # ✅ Automatically log the user in
+            login(request, user)  
 
             # If it's an AJAX request, return JSON
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -69,7 +69,7 @@ def ajax_login(request):
             # Optional: Redirect user to the create post page after login
             return JsonResponse({
                 "success": True,
-                "redirect_url": "/post/new/"  # Change if needed
+                "redirect_url": "/post/new/" 
             })
 
         return JsonResponse({
@@ -79,24 +79,3 @@ def ajax_login(request):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-
-
-@login_required
-def follow_user(request, username):
-    user_to_follow = get_object_or_404(User, username=username)
-
-    # Prevent following yourself
-    if request.user != user_to_follow:
-        user_to_follow.profile.followers.add(request.user)
-
-    return redirect('user-posts', username=username)
-
-
-@login_required
-def unfollow_user(request, username):
-    user_to_unfollow = get_object_or_404(User, username=username)
-
-    if request.user != user_to_unfollow:
-        user_to_unfollow.profile.followers.remove(request.user)
-
-    return redirect('user-posts', username=username)

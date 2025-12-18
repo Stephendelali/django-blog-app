@@ -27,6 +27,15 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 DB_HOST = os.getenv("DB_HOST", "localhost")
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f"postgres://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@aws-1-eu-central-1.pooler.supabase.com:{os.getenv('DB_PORT', '6543')}/{os.getenv('DB_NAME', 'postgres')}",
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -45,7 +54,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app','django-blog-app-tlzg.o
 
 INSTALLED_APPS = [
     # your apps
-    "blog",
+    'blog.apps.BlogConfig',
     "users",
 
     # Crispy Forms
@@ -70,7 +79,23 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
+CACHE_TTL = 60 * 5 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -91,36 +116,23 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders': [
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ]),
+            ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'django_project.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'postgres'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'aws-1-eu-central-1.pooler.supabase.com',
-        'PORT': os.getenv('DB_PORT', '6543'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
-}
 
 
 CSRF_COOKIE_SECURE = True
@@ -180,6 +192,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# ===== SESSION OPTIMIZATION =====
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'default'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -224,21 +240,27 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Allauth authentication settings
 ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_UNIQUE_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 SOCIALACCOUNT_QUERY_EMAIL = True
-ACCOUNT_EMAIL_REQUIRED = True
 
 
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 
 
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+
+ACCOUNT_SIGNUP_FIELDS = [
+    'email*',
+    'username*',
+    'password1*',
+    'password2*',
+]
 
 
 
-# Allow login by username or email
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
 
 
 

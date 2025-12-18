@@ -1,21 +1,14 @@
-// toast.js
+function showPremiumToast(message) {
+  const toast = document.getElementById('premiumToast');
+  const text = document.getElementById('premiumToastText');
 
-export function showToast(message, type = "success") {
-    const container = document.getElementById("toastContainer");
-    const toast = document.createElement("div");
+  text.textContent = message;
 
-    const colors = {
-        success: "bg-green-600",
-        error: "bg-red-600"
-    };
+  toast.classList.remove('opacity-0', 'translate-y-4');
+  toast.classList.add('opacity-100', 'translate-y-0');
 
-    toast.className = `${colors[type]} text-white px-4 py-3 rounded-lg shadow-lg animate-slide-in flex items-center gap-3`;
-    toast.innerHTML = `<span>${message}</span>`;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("opacity-0", "translate-x-10");
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+  setTimeout(() => {
+    toast.classList.add('opacity-0', 'translate-y-4');
+    toast.classList.remove('opacity-100');
+  }, 2000);
 }
