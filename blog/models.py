@@ -20,7 +20,7 @@ class Post(models.Model):
         null=True
     )
 
-    # 🚀 STORED COUNTERS (FAST)
+    # Reaction counters
     love_count = models.PositiveIntegerField(default=0)
     clap_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)

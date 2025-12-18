@@ -91,8 +91,7 @@ CACHES = {
 
 
 CACHE_TTL = 60 * 5 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+
 
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',

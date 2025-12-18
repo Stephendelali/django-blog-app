@@ -223,34 +223,54 @@ def follow_user(request, username):
 @login_required
 @require_POST
 def react_to_post(request, post_id):
-    data = json.loads(request.body)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"success": False, "error": "Invalid JSON"},
+            status=400
+        )
+
     reaction_type = data.get("reaction")
 
     if reaction_type not in ['love', 'clap', 'bookmark']:
-        return JsonResponse({'success': False}, status=400)
+        return JsonResponse(
+            {"success": False, "error": "Invalid reaction"},
+            status=400
+        )
 
     post = get_object_or_404(Post, id=post_id)
 
-    reaction, created = Reaction.objects.get_or_create(
+    # 🔒 Ensure uniqueness manually (even if DB constraint is missing)
+    existing = Reaction.objects.filter(
         user=request.user,
         post=post,
         reaction_type=reaction_type
     )
 
-    if not created:
-        reaction.delete()
+    if existing.exists():
+        existing.delete()
         active = False
     else:
+        Reaction.objects.create(
+            user=request.user,
+            post=post,
+            reaction_type=reaction_type
+        )
         active = True
 
+    count = Reaction.objects.filter(
+        post=post,
+        reaction_type=reaction_type
+    ).count()
+
     return JsonResponse({
-        "success": True,          # ✅ REQUIRED
+        "success": True,
         "reaction": reaction_type,
         "active": active,
-        "count": post.reactions.filter(
-            reaction_type=reaction_type
-        ).count()
+        "count": count
     })
+
 
 # =======================
 # COMMENTS
