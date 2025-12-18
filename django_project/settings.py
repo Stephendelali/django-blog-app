@@ -79,15 +79,19 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+if DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         }
     }
-}
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        }
+    }
+
 
 
 CACHE_TTL = 60 * 5 
@@ -144,8 +148,6 @@ GOOGLE_SECRET=os.getenv("GOOGLE_SECRET")
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
 
 
@@ -245,7 +247,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 
 
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 
 ACCOUNT_LOGIN_METHODS = {'username', 'email'}
@@ -281,5 +283,3 @@ CSRF_TRUSTED_ORIGINS = [
     "https://django-blog-app-tlzg.onrender.com",
 ]
 
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
