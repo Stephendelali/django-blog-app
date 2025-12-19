@@ -126,6 +126,24 @@ class PostDetailView(DetailView):
             )
         )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            context['user_reactions'] = set(
+                Reaction.objects.filter(
+                    user=self.request.user,
+                    post=self.object
+                ).values_list('reaction_type', flat=True)
+            )
+        else:
+            context['user_reactions'] = set()
+
+        context['comments'] = self.object.comments.filter(parent__isnull=True)
+        context['comments_count'] = self.object.comments.count()
+
+        return context
+
 
 
 
@@ -193,15 +211,18 @@ def tech_feed(request):
 @login_required
 @require_POST
 def follow_user(request, username):
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
-
     target_user = get_object_or_404(User, username=username)
+
+    # 🚫 Prevent self-follow
+    if target_user == request.user:
+        return JsonResponse(
+            {'success': False, 'error': 'You cannot follow yourself'},
+            status=400
+        )
+
     profile = getattr(target_user, 'profile', None)
     if not profile:
-        return JsonResponse({'success': False, 'error': 'Profile not found'}, status=404)
+        return JsonResponse({'success': False}, status=404)
 
     if profile.followers.filter(id=request.user.id).exists():
         profile.followers.remove(request.user)
