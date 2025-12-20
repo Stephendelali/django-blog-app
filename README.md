@@ -67,10 +67,14 @@ It combines a minimal, premium interface with robust backend features such as au
 ---
 
 ## 📸 Screenshots
+<img width="1922" height="3306" alt="screencapture-django-blog-app-tlzg-onrender-2025-12-20-19_36_01" src="https://github.com/user-attachments/assets/29d12236-90e2-4a90-9401-6a1c1aaa1e4a" />
 
-> 
+---<img width="1922" height="1255" alt="screencapture-django-blog-app-tlzg-onrender-accounts-google-login-2025-12-20-19_37_52" src="https://github.com/user-attac<img width="1922" height="3130" alt="screencapture-django-blog-app-tlzg-onrender-post-3-2025-12-20-19_33_41" src="https://github.com/user-attachments/assets/27c8046c-2ef9-4560-acad-c8761c6954ac" />
+hments/assets/6704616c-04d1-4bd5-8d63-b95ff4e6529e" />
 
----
+
+![Uploading screencapture-django-blog-app-tlzg-onrender-post-3-2025-12-20-19_33_41.png…]()
+
 
 ## ⚙️ Local Development Setup
 
