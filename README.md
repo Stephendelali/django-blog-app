@@ -80,5 +80,110 @@ It combines a minimal, premium interface with robust backend features such as au
 ```bash
 git clone https://github.com/Stephendelali/django-blog-app.git
 cd django-blog-app
+````
 
+### 2️⃣ Create & activate a virtual environment
+```bash
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+
+````
+
+### 3️⃣ Install dependencies
+````bash
+pip install -r requirements.txt
+````
+
+## 🔐 Environment Variables
+
+### Create a .env file at the project root:
+````bash
+DEBUG=True
+SECRET_KEY=your_django_secret_key
+
+# Email (SMTP)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_email_app_password
+
+# Database
+DB_NAME=postgres
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_PORT=6543
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_SECRET=your_google_client_secret
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+````
+
+## 🗄️ Database & Migrations
+````bash
+python manage.py migrate
+````
+
+## ▶️ Run the development server
+````bash
+python manage.py runserver
+````
+
+# Voxa Project
+
+Open your browser at:  
+👉 [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+---
+
+## 🔒 Security Notes
+
+- Secure cookies enabled in production  
+- CSRF & session protection configured  
+- OAuth redirect URIs must be updated when changing domains  
+- Environment variables are required for deployment  
+
+---
+
+## 📦 Deployment
+
+The project is deployment-ready for platforms like:
+
+- Render  
+- Vercel (frontend)  
+- Railway  
+- Fly.io  
+
+Static files are handled via **WhiteNoise**, and media uploads via **Cloudinary**.
+
+---
+
+## 🧭 Roadmap
+
+- Custom domain (`voxa.*`)  
+- Post reactions & comments  
+- User follow system  
+- API-first expansion  
+- PWA support  
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+Feel free to fork, modify, and build upon it.
+
+---
+
+## 🙌 Author
+
+**Stephen Delali**  
+GitHub: [@Stephendelali](https://github.com/Stephendelali)
 
