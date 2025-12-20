@@ -1,86 +1,82 @@
-# 📰 Django Blog App
+# 🗞️ Voxa — Modern Django Blogging Platform
 
-A modern, lightweight blog built with **Django**.  
-Features a clean, responsive UI with **minimal animations** (subtle hover fades, soft card lifts, and smooth link transitions) to improve polish without distracting users.
+Voxa is a **modern, production-ready blogging platform** built with **Django 5** and designed with a strong focus on **clean UI, performance, and user experience**.
 
----
-
-[![Django](https://img.shields.io/badge/Django-5.x-green)](https://www.djangoproject.com/) [![Python](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+It combines a minimal, premium interface with robust backend features such as authentication, social login, media handling, and deployment-ready configuration.
 
 ---
 
-## ✨ Highlights
+## 🚀 Live Demo
 
-- Minimal, modern UI with small, tasteful animations:
-  - Card elevation on hover (soft shadow + transform)
-  - Subtle link color transitions
-  - Smooth pagination / button hover effects
-- Core blog features: create, read, update, delete (CRUD)
-- User authentication & profiles (profile pictures)
-- Responsive layout: two-column desktop, single-column mobile
-- Clean templates ready to customize (Tailwind friendly)
+👉 **https://django-blog-app-tlzg.onrender.com/**  
+*(Custom domain coming soon)*
 
 ---
 
-## 🧭 Features
+## 🛠️ Tech Stack
 
-- ✅ User registration, login, logout, password reset (SMTP)
-- ✅ Post creation, editing, deletion
-- ✅ Author profiles with avatar
-- ✅ Pagination and search-ready structure
-- ✅ Accessible, responsive HTML templates
-- ✅ Minimal CSS animations that improve UX (not flashy)
+### Backend
+- **Django 5.x**
+- **Python 3.10+**
+- Django Allauth (authentication & social login)
+- Django REST Framework (API-ready)
+
+### Frontend
+- **Tailwind CSS**
+- Custom CSS variables & subtle animations
+- Modular JavaScript (ES modules)
+- Geist font for clean typography
+
+### Infrastructure
+- **PostgreSQL** (Supabase-compatible)
+- **Cloudinary** (media storage)
+- **WhiteNoise** (static files)
+- **Render** (deployment)
 
 ---
 
-## 🏗 Tech Stack
+## ✨ Key Features
 
-- **Backend:** Django (Python)  
-- **Frontend:** Tailwind CSS (suggested) or Bootstrap with small custom CSS for animations  
-- **Database:** SQLite (default) — easy to switch to PostgreSQL  
-- **Email:** SMTP (Gmail or Mailtrap for development)  
-- **VCS:** Git & GitHub
+### 🧑‍💻 Authentication & Accounts
+- Email/password authentication
+- Google OAuth 2.0 login
+- Secure sessions & CSRF protection
+- Modal-based login & registration UX
+- Redirect-back logic after authentication
+
+### 📝 Blogging
+- Full CRUD for blog posts
+- Author profiles with avatars
+- Responsive layouts (desktop & mobile)
+- Clean, readable typography
+
+### 🎨 UI / UX
+- Premium, minimal interface
+- Subtle animations (hover, scale, fades)
+- Consistent design system using CSS variables (`--voxa-*`)
+- Branded navigation & favicon
+- Accessibility-friendly markup
+
+### ⚡ Performance & Production
+- Template caching
+- GZip compression
+- Secure cookies in production
+- Environment-based settings
+- Cloud-ready configuration
 
 ---
 
-## ⚙️ Local Setup
+## 📸 Screenshots
 
-1. **Clone**
+> 
+
+---
+
+## ⚙️ Local Development Setup
+
+### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/Stephendelali/django-blog-app.git
 cd django-blog-app
-Create & activate virtual environment
-deactivate
-```
-2. Create & activate virtual environment
 
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# macOS / Linux
-source venv/bin/activate
-```
 
-3.Install dependencies
-```bash
-pip install -r requirements.txt
-
-```
-
-Environment variables
-Create a .env at project root:
-```bash
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-DEBUG=True
-SECRET_KEY=your_django_secret_key
-```
-Migrate & run
-```bash
-python manage.py migrate
-python manage.py createsuperuser   # optional
-python manage.py runserver
-```
-
-Open: http://127.0.0.1:8000/
