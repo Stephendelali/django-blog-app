@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from PIL import Image
+from cloudinary.models import CloudinaryField
 
 
 # ----- Post Model -----
@@ -13,11 +13,12 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(
-        upload_to='post_images/',
-        default='default_post.jpg',
+    image = CloudinaryField(
+        'image',
+        folder='post_images',
         blank=True,
-        null=True
+        null=True,
+        default=''
     )
 
     # Reaction counters
@@ -37,18 +38,8 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        if self.image:
-            try:
-                img = Image.open(self.image.path)
-                max_size = (1024, 1024)
-                if img.height > 1024 or img.width > 1024:
-                    img.thumbnail(max_size)
-                    img.save(self.image.path)
-            except Exception:
-                pass
+    # Remove the save() method that was resizing images locally
+    # Cloudinary handles image optimization automatically
 
 
 # ----- Reaction Model -----
